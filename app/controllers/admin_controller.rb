@@ -1,8 +1,7 @@
 class AdminController < ApplicationController
     before_filter :authenticate_user!
-    before_filter :check_is_character_ref
 
-    def approvals
+    def dashboard
         @character_requests = Character.pending_characters(current_user)
         @guild_change_requests = GuildMembership.pending_guild_memberships(current_user)
         @provisional_guild_memberships = GuildMembership.provisional_guild_memberships(current_user)
@@ -15,10 +14,4 @@ class AdminController < ApplicationController
         end
     end
     
-    private
-        def check_is_character_ref
-            unless current_user.is_character_ref?
-                permission_denied
-            end
-        end
 end

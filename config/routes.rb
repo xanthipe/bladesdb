@@ -273,7 +273,7 @@ Blades::Application.routes.draw do
   get "/next_game"        => "games#next_game",          :as => :next_game
   get "/my_characters"    => "characters#my_characters", :as => :my_characters
   get "/monster_points"   => "my_info#monster_points",   :as => :monster_points
-  get "/approvals"        => "admin#approvals",          :as => :approvals
+  get "/dashboard"        => "admin#dashboard",          :as => :dashboard
   get "/user_profile"     => "users#profile",            :as => :user_profile
 
   if Rails.env.production?
