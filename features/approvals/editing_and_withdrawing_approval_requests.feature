@@ -59,7 +59,7 @@ Feature: Editing and Withdrawing Approval Requests
 
   Scenario: User cannot edit a pending Character Declaration request
     Given the user has an undeclared character
-    And the user has a pending character declaration request for the character
+    And the user has a pending character declaration request
 		When the user inspects the pending character declaration request on the dashboard
     Then there should be no option to edit the pending character declaration request
 
@@ -88,13 +88,13 @@ Feature: Editing and Withdrawing Approval Requests
 
   Scenario: User cannot edit a pending Recycle Character request
     Given the user has a character
-    And the user has a pending character recycle request
+    And the user has a pending recycle character request
     When the user inspects the pending character recycle request on the dashboard
     Then there should be no option to edit the pending character recycle request
 
   Scenario: User can withdraw a pending Recycle Character request
     Given the user has a character
-    And the user has a pending character recycle request
+    And the user has a pending recycle character request
     When the user withdraws the pending character recycle request on the dashboard
     Then the pending character recycle request should be removed from the dashboard
 		And a character recycle request withdrawn message should be displayed
@@ -185,13 +185,13 @@ Feature: Editing and Withdrawing Approval Requests
 
   Scenario: User cannot edit a pending Death Threshold Adjustment request
     Given the user has a character
-    And the user has a pending death threshold adjustment
+    And the user has a pending character death threshold adjustment
 		When the user inspects the pending death threshold adjustment request on the dashboard
 		Then there should be no option to edit the pending death threshold adjustment request
 
   Scenario: User can withdraw a pending Death Threshold Adjustment request
     Given the user has a character
-    And the user has a pending death threshold adjustment
+    And the user has a pending character death threshold adjustment
 		When the user withdraws the pending death threshold adjustment on the dashboard
     Then the pending death threshold adjustment should be removed from the dashboard
 		And a death threshold adjustment withdrawn message should be displayed
