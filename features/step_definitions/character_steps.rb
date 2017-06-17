@@ -45,6 +45,10 @@ Given(/^the character is dead$/) do
   CharacterTestHelper.permdeath_character
 end
 
+Given(/^the character is permadead$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
 Given(/^the character is recycled$/) do
   CharacterTestHelper.recycle_character
 end
@@ -71,6 +75,10 @@ end
 
 Given(/^the user has an undeclared character$/) do
   CharacterTestHelper.create_undeclared_character(User.first)
+end
+
+Given(/^the user has a character that can be recycled$/) do
+  pending # Write code here that turns the phrase above into concrete actions
 end
 
 # Actions
@@ -254,4 +262,40 @@ end
 
 Then(/^no title should be displayed on the character's profile$/) do
   CharacterPage.new.check_for_character_title(nil)
+end
+
+Then(/^the character should be displayed as active on the character's profile page$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should be displayed as recycled on the character's profile page$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should become an undeclared character$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should revert to an undeclared character$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should remain active$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should remain dead$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character's rank should remain at (.*?)\.$/) do |rank|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should become an undeclared character\.$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should be displayed as permdead on the character's profile page$/) do
+  pending # Write code here that turns the phrase above into concrete actions
 end

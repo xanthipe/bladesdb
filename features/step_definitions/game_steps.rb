@@ -177,3 +177,19 @@ end
 Then(/^the user should only see the game summary$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_game_visibility(Game.first, loggedin: false)
 end
+
+Then(/^the game should be assigned to the first user$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should be removed from the game$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the game should remain unassigned$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the game should be assigned to the user$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end

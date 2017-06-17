@@ -59,14 +59,14 @@ Feature: Handling My Rejected Requests
 		And the character should become an undeclared character.
 
   Scenario: User cannot edit a rejected Recycle Character request
-		Given And the user has a character
+		Given the user has a character
 		And the character is at rank 5.0
 		And the user has a rejected recycle character request
     When the user inspects the rejected recycle character request on the dashboard
     Then there should be no option to edit the rejected recycle character request
 
   Scenario: User cannot withdraw a rejected Recycle Character request
-		Given Given And the user has a character
+		Given the user has a character
 		And the character is at rank 5.0
 		And the user has a rejected recycle character request
     When the user inspects the rejected recycle character request on the dashboard

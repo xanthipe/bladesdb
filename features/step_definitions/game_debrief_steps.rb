@@ -99,3 +99,7 @@ end
 Then(/^the GM should appear in the GM\-created members list$/) do
   MembersPage.new.visit_page(users_path).and.check_for_undeclared_user(User.all.second)
 end
+
+Then(/^the character should not be removed from the game debrief$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end

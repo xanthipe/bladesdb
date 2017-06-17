@@ -65,7 +65,7 @@ Feature: Editing and Withdrawing Approval Requests
 
   Scenario: User can withdraw a pending Character Declaration request even if the character is signed up to a game
     Given the user has an undeclared character
-		And the user has a pending character declaration request for the character
+		And the user has a pending character declaration request
 		And there is a game
 		And the user has applied to play the game with the pending character
     When the user withdraws the pending character creation request on the dashboard
@@ -76,7 +76,7 @@ Feature: Editing and Withdrawing Approval Requests
 
 	Scenario: User can withdraw a pending Character Declaration request even if the character is on a debriefed game
 		Given the user has an undeclared character
-		And the user has a pending character declaration request for the character
+		And the user has a pending character declaration request
 		And there is a game one week ago
 		And the user has applied to play the game with the pending character
 		And the game has been debriefed
@@ -88,13 +88,13 @@ Feature: Editing and Withdrawing Approval Requests
 
   Scenario: User cannot edit a pending Recycle Character request
     Given the user has a character
-    And the user has a pending character recycle request for the character
+    And the user has a pending character recycle request
     When the user inspects the pending character recycle request on the dashboard
     Then there should be no option to edit the pending character recycle request
 
   Scenario: User can withdraw a pending Recycle Character request
     Given the user has a character
-    And the user has a pending character recycle request for the character
+    And the user has a pending character recycle request
     When the user withdraws the pending character recycle request on the dashboard
     Then the pending character recycle request should be removed from the dashboard
 		And a character recycle request withdrawn message should be displayed
@@ -103,13 +103,13 @@ Feature: Editing and Withdrawing Approval Requests
   Scenario: User cannot edit a pending Character Resurrection request
     Given the user has a character
     And the character is permadead
-    And the user has a pending character resurrection request for the character
+    And the user has a pending resurrect character request
 		When the user inspects the pending character resurrection request on the dashboard
     Then there should be no option to edit the pending character resurrection request
 
   Scenario: User can withdraw a pending Character Resurrection request
     Given the user has a character
-    And the user has a pending character resurrection request for the character
+    And the user has a pending resurrect character request
 		When the user withdraws the pending character recycle request on the dashboard
     Then the pending character resurrection request should be removed from the dashboard
 		And a character resurrection request withdrawn message should be displayed
@@ -171,13 +171,13 @@ Feature: Editing and Withdrawing Approval Requests
 
   Scenario: User cannot edit a pending Character Point Adjustment request
     Given the user has a character
-    And the user has a pending character point adjustment request for the character
+    And the user has a pending character point adjustment
 		When the user inspects the pending character point adjustment request on the dashboard
 		Then there should be no option to edit the pending character point adjustment request
 
   Scenario: User can withdraw a pending Character Point Adjustment request
     Given the user has a character
-    And the user has a pending character point adjustment request for the character
+    And the user has a pending character point adjustment
 		When the user withdraws the pending character point adjustment on the dashboard
     Then the pending character point adjustment should be removed from the dashboard
 		And a character point adjustment withdrawn message should be displayed
@@ -185,13 +185,13 @@ Feature: Editing and Withdrawing Approval Requests
 
   Scenario: User cannot edit a pending Death Threshold Adjustment request
     Given the user has a character
-    And the user has a pending death threshold adjustment request for the character
+    And the user has a pending death threshold adjustment
 		When the user inspects the pending death threshold adjustment request on the dashboard
 		Then there should be no option to edit the pending death threshold adjustment request
 
   Scenario: User can withdraw a pending Death Threshold Adjustment request
     Given the user has a character
-    And the user has a pending death threshold adjustment request for the character
+    And the user has a pending death threshold adjustment
 		When the user withdraws the pending death threshold adjustment on the dashboard
     Then the pending death threshold adjustment should be removed from the dashboard
 		And a death threshold adjustment withdrawn message should be displayed

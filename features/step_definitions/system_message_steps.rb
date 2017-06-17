@@ -203,3 +203,171 @@ end
 Then(/^an application cancelled message should be displayed$/) do
   CharacterPage.new.check_is_displaying_message I18n.t("character.guild_membership.success.cancelled")
 end
+
+Then(/^a monster point declaration approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a monster point adjustment approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character creation request approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character declaration request approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a recycle character request approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a resurrect character request approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a join Guild request approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a join Guild request provisionally approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a change Guild request approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a change Guild request provisionally approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a leave Guild request approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character point adjustment approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character death threshold adjustment approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a game application approved message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a monster point declaration withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a monster point adjustment withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character declaration request withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character creation request withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character recycle request withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character resurrection request withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a join Guild request withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a change Guild request withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a leave Guild request withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character point adjustment withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a death threshold adjustment withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a game application updated message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a game application withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character creation updated message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character creation withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character declaration updated message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character declaration withdrawn message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a monster point declaration rejected message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a monster point adjustment rejected message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character creation request rejected message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character declaration request rejected message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a recycle character request rejected message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a join Guild request rejected message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a change Guild request rejected message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a leave Guild request rejected message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character point adjustment rejected message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a character death threshold adjustment rejected message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a game application rejected message should be displayed$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end

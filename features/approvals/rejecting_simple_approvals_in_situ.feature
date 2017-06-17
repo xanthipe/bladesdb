@@ -184,5 +184,5 @@ Feature: Rejecting Simple Approvals in situ
 		Then the approval controls should be removed for the game application from the game page
 		And a game application rejected message should be displayed
 		And a game application rejected email should be sent to the first user
-		And no email should be sent to the second user
+		And no game rejection email should be sent to the second user
 		And the game should remain unassigned

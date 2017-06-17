@@ -19,15 +19,15 @@ end
 Given(/^the user has a monster point declaration since the monster point spend$/) do
   UserTestHelper.add_monster_point_declaration(User.first, 10, MonsterPointSpend.first.spent_on + 1.day)
 end
- 
+
 Given(/^the user has a rejected monster point declaration since the monster point spend$/) do
   UserTestHelper.add_monster_point_declaration(User.first, 10, MonsterPointSpend.first.spent_on + 1.day, approved: false)
 end
- 
+
 Given(/^the user has a pending monster point declaration for (\d+) monster points?$/) do |points|
   UserTestHelper.add_monster_point_declaration(User.first, points.to_i, 1.week.ago, approved: nil)
 end
- 
+
 Given(/^the user has a rejected monster point declaration one week ago$/) do
   UserTestHelper.add_monster_point_declaration(User.first, 10, 1.week.ago, approved: false)
 end
@@ -276,3 +276,6 @@ Then(/^the user should be told they cannot create a monster point spend before t
   CharacterPage.new.check_for_cannot_spend_before_character_point_adjustment(Character.first.character_point_adjustments.last.declared_on)
 end
 
+Then(/^the user's monster points should remain at (.*?)\.$/) do |mps|
+  pending # Write code here that turns the phrase above into concrete actions
+end

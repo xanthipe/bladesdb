@@ -98,3 +98,43 @@ end
 Then(/^no Guild should be shown on the character's profile$/) do
   CharacterPage.new.check_for_guild("No guild", branch: nil)
 end
+
+Then(/^the character should be displayed as having provisionally joined the Guild at rank (.*?) on the character's profile page$/) do |rank|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should be displayed as having joined the other Guild at rank (.*?) on the character's profile page$/) do |rank|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should be displayed as having provisionally joined the other Guild at rank (.*?) on the character's profile page$/) do |rank|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should be displayed as having left the Guild at rank (.*?) on the character's profile page$/) do |rank|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should remain unguilded\.$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should remain in the Guild\.$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should remain guildless on the character's profile page$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should become guildless on the character's profile page$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should remain in the first Guild on the character's profile page$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the character should return to the first Guild on the character's profile page$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
