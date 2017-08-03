@@ -1,0 +1,15 @@
+<td><%= debrief.date_range(:twoline => true) %></td>
+<td><%= debrief.game_title %></td>
+<td>
+  <% debrief.gamesmasters.order(:name).to_a.each do |gm| %>
+    <%= gm.display_name(current_user) %><br />
+  <% end %>
+</td>
+<td><%= debrief_close_date(debrief.start_date, debrief.end_date) %></td>
+<td>
+  <% if debrief.is_debriefable? and debrief.is_editable_by? current_user %>
+    <%= link_to "Start Debrief", start_debrief_game_path(debrief), :method => :get, :remote => true %>
+  <%= elsif link_to "Edit Debrief", game_path(debrief), method: :patch, remote: true %>
+  <% end %>
+  | <%= link_to "Finish Debrief", finish_debrief_game_path(debrief), method: :patch, remote: true %>
+</td>

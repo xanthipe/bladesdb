@@ -1,5 +1,26 @@
 <h1 class="alt">My Dashboard</h1>
 
+<h2 class="alt">My Outstanding Debriefs</h2>
+
+<%= render :partial => "debriefs/outstanding_debriefs_table", :locals => { :debriefs => @debriefs } %>
+
+<h2 class="alt">Requests to Approve</h2>
+
+<%= render :partial => "approval_requests_table", :locals => { :approvals => @approvals } %>
+
+<h2 class="alt">Requests Pending Approval</h2>
+
+<%= render :partial => "pending_requests_table", :locals => { :pendings => @pendings } %>
+
+<h2 class="alt">Rejected Requests</h2>
+
+<%= render :partial => "rejected_requests_table", :locals => { :rejecteds => @rejecteds } %>
+
+<h2 class="alt">Approved Requests</h2>
+
+<%= render :partial => "approved_requests_table", :locals => { :approveds => @approveds } %>
+
+---
 <% if @character_requests.length > 0 %>
     <h3 class="alt">Character Requests</h3>
     <table class="prestyled">

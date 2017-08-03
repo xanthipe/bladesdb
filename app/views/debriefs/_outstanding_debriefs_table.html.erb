@@ -1,0 +1,24 @@
+<%= if debriefs.empty? %>
+
+  <p>No outstanding debriefs.</p>
+
+<%= else %>
+
+  <table id="outstandingdebriefs" class="prestyled">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Title</th>
+        <th>Completion date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% debriefs.to_a.each do |debrief| %>
+        <tr id="debriefrow<%= debrief.id %>" class="<%= cycle('odd', 'even') %>">
+          <%= render :partial => "debrief_summary", :locals => { :debrief => debrief } %>
+        </tr>
+    </tbody>
+  </table>
+
+<%= end %>
