@@ -81,6 +81,11 @@ Given(/^the user has a character that can be recycled$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
+Given(/^the user has a character declared one month before the monster spend cut\-off$/) do
+  CharacterTestHelper.create_character(User.first, declared_on: '2016-12-07')
+  CharacterTestHelper.approve_character(User.first)
+end
+
 # Actions
 
 When(/^the character is at rank (.*?)$/) do |rank|

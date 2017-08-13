@@ -96,6 +96,18 @@ Given(/^the user has a rejected character point adjustment since the monster poi
   CharacterTestHelper.add_character_point_adjustment(Character.first, 1, MonsterPointSpend.first.spent_on + 1.day, approved: false)
 end
 
+Given(/^the character has a monster point spend before the cut-off that takes the character to rank 10.0$/) do
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: '2016-12-28', character_points_gained: 70, monster_points_spent: 70)
+end
+
+Given(/^the character has a monster point spend after the cut\-off that takes the character to rank 10.0$/) do
+  MonsterPointSpendTestHelper.create_monster_point_spend(Character.first, date: '2017-01-25', character_points_gained: 70, monster_points_spent: 70)
+end
+
+Given(/^the character has 100 monster points available two weeks before the monster spend cut\-off$/) do
+  UserTestHelper.add_monster_point_declaration(User.first, 100, '2016-12-27')
+end
+
 # Action steps
 
 When(/^the user (?:buys|tries to buy) (-?\d+) character points? for the character$/) do |points|
