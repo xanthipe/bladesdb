@@ -17,12 +17,12 @@
     	<div class="multicolumnform">
     		<div class="formcolumn">
     			<ul class="form">
-    				<li>
+    			<li>
 						<%= f.label :name %><br />
 						<%= f.text_field :name, { class: "fullwidth" } %>
 					</li>
 
-    				<li>
+    			<li>
 						<%= f.label :state %><br />
 						<%= f.select :state, options_for_select([["Active", Character::Active],
 															     ["Retired", Character::Retired],
@@ -32,13 +32,13 @@
 					<li>
     					<%= f.label :starting_points, "Character Point Total" %><br/>
     					<%= f.text_field :starting_points, { class: "fullwidth" } %>
-    				</li>
+    			</li>
 
-    				<li>
+    			<li>
 						<%= label_tag "Title" %><br />
 						<%= radio_button_tag(:radio_title, "guild", (@character.title.blank? && !@character.no_title) ) %><%= label_tag "radio_title_guild", "Use Guild titles" %><br />
-			  			<%= radio_button_tag(:radio_title, "no_title", @character.no_title) %><%= label_tag "radio_title_no_title", "Use no title" %><br />
-			  			<%= radio_button_tag(:radio_title, "custom", !@character.title.blank? ) %><%= label_tag "radio_title_custom", "Use a custom title" %><br />
+			  		<%= radio_button_tag(:radio_title, "no_title", @character.no_title) %><%= label_tag "radio_title_no_title", "Use no title" %><br />
+			  		<%= radio_button_tag(:radio_title, "custom", !@character.title.blank? ) %><%= label_tag "radio_title_custom", "Use a custom title" %><br />
 						<%= f.text_field :title, { class: "fullwidth", :disabled => @character.title.blank? } %>
 					</li>
 

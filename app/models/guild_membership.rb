@@ -1,35 +1,15 @@
 class GuildMembership < ActiveRecord::Base
+  includes Approvable
+
     belongs_to :character
     belongs_to :guild
     belongs_to :guild_branch
-    belongs_to :approved_by, :class_name => "User"
 
-    #validates_presence_of :character_id
-    validates_presence_of :declared_on
-    validates_presence_of :approved_by_id, :unless => :is_provisional_or_starting_guild?
-    validates_presence_of :approved_at, :unless => :is_provisional_or_starting_guild?
+    validates_presence_of :character_id
     validates_presence_of :guild_branch_id, :unless => "guild_id.nil? || guild.guild_branches.empty?"
     validates_numericality_of :start_points, :only_integer => true, :greater_than_or_equal_to => 0, :allow_nil => true
     validate :guild_start_points_less_than_or_equal_to_total_points
     validate :guild_or_branch_are_different_to_previous, on: :create
-
-    def self.pending_guild_memberships(except_user)
-        GuildMembership.joins(:character).where(guild_memberships: {approved: nil}).where.not(characters: {user_id: except_user.id})
-    end
-
-    def self.provisional_guild_memberships(except_user)
-        GuildMembership.joins(character: :character_state).where(guild_memberships: {approved: true, provisional:true}).where.not(characters: {user_id: except_user.id}).where("guild_memberships.id = current_character_status.guild_membership")
-    end
-
-    # This refers to whether or not the membership change has been approved, not whether the character is a provisional guild member.
-    # The "provisional" method provides the latter.
-    def is_provisional?
-        self.approved == nil
-    end
-
-    def rejected?
-        self.approved == false
-    end
 
     def start_rank
         calculated_start_points / 10.0
@@ -51,24 +31,6 @@ class GuildMembership < ActiveRecord::Base
         end
     end
 
-    def approve(current_user)
-        @approval_recently_set = true
-        self.approved = true
-        self.approved_at = Time.now
-        self.approved_by = current_user
-    end
-
-    def reject(current_user)
-        @approval_recently_set = true
-        self.approved = false
-        self.approved_at = Time.now
-        self.approved_by = current_user
-    end
-
-    def approval_recently_set?
-        @approval_recently_set
-    end
-
     protected
         def guild_start_points_less_than_or_equal_to_total_points
             errors.add(:start_points, I18n.t("character.guild_membership.failure.more_than_character_points")) unless start_points.nil? or character.starting_points.nil? or start_points <= character.starting_points
@@ -80,7 +42,7 @@ class GuildMembership < ActiveRecord::Base
             end
         end
 
-        def is_provisional_or_starting_guild?
-            is_provisional? or start_points == 0
+        def is_starting_guild?
+            start_points == 0
         end
 end

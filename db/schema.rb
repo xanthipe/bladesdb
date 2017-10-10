@@ -11,7 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722205455) do
+ActiveRecord::Schema.define(version: 20170930201841) do
+
+  create_table "application_games_masters", id: false, force: true do |t|
+    t.integer "application_id", null: false
+    t.integer "user_id",        null: false
+  end
+
+  create_table "approvals", force: true do |t|
+    t.integer "role_id"
+    t.integer "approved_by"
+    t.date    "approved_on"
+    t.boolean "approved"
+    t.string  "rejection_reason"
+    t.integer "approvable_id"
+    t.string  "approvable_type"
+    t.index ["approvable_id", "approvable_type"], :name => "index_approvals_on_approvable_id_and_approvable_type"
+  end
 
   create_table "board_visits", force: true do |t|
     t.integer  "board_id",   null: false
@@ -61,19 +77,51 @@ ActiveRecord::Schema.define(version: 20160722205455) do
     t.index ["game_id", "user_id"], :name => "index_caterers_on_game_id_and_user_id"
   end
 
+  create_table "character_declarations", force: true do |t|
+    t.integer "user_id",                                          null: false
+    t.integer "character_id",                                     null: false
+    t.date    "declared_on",               default: '2017-10-01', null: false
+    t.string  "name",                                             null: false
+    t.integer "race_id",                                          null: false
+    t.integer "guild_id"
+    t.integer "guild_branch_id"
+    t.integer "guild_start_points"
+    t.integer "starting_points",           default: 20,           null: false
+    t.integer "starting_florins",          default: 0,            null: false
+    t.integer "starting_death_thresholds",                        null: false
+    t.string  "reason"
+    t.date    "decision_date"
+    t.boolean "overall_decision_status"
+  end
+
   create_table "character_point_adjustments", force: true do |t|
-    t.integer  "character_id",   null: false
-    t.integer  "points",         null: false
-    t.string   "reason",         null: false
-    t.integer  "approved_by_id"
-    t.datetime "approved_at"
-    t.boolean  "approved"
+    t.integer  "character_id",            null: false
+    t.integer  "points",                  null: false
+    t.string   "reason"
+    t.boolean  "overall_approval_status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"
-    t.string   "comment"
+    t.date     "decision_date"
+    t.integer  "user_id"
     t.index ["character_id"], :name => "index_character_point_adjustments_on_character_id"
     t.index ["declared_on"], :name => "index_character_point_adjustments_on_declared_on"
+  end
+
+  create_table "character_recyclings", force: true do |t|
+    t.integer "character_id"
+    t.integer "user_id"
+    t.string  "reason"
+    t.date    "decision_date"
+    t.boolean "overall_decision_status"
+  end
+
+  create_table "character_resurrections", force: true do |t|
+    t.integer "character_id"
+    t.integer "user_id"
+    t.string  "reason"
+    t.date    "decision_date"
+    t.boolean "overall_decision_status"
   end
 
   create_table "characters", force: true do |t|
@@ -92,17 +140,13 @@ ActiveRecord::Schema.define(version: 20160722205455) do
     t.string   "title"
     t.string   "state",                     default: "active",     null: false
     t.text     "notes"
-    t.date     "declared_on",               default: '2017-01-02', null: false
-    t.integer  "approved_by_id"
-    t.date     "approved_on"
-    t.boolean  "approved"
+    t.date     "declared_on",               default: '2010-04-19', null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "branch_id"
     t.text     "gm_notes"
     t.text     "player_notes"
     t.boolean  "preferred_character",       default: false,        null: false
-    t.string   "comment"
     t.boolean  "no_title",                  default: false,        null: false
     t.index ["user_id"], :name => "index_characters_on_user_id"
   end
@@ -118,16 +162,15 @@ ActiveRecord::Schema.define(version: 20160722205455) do
   end
 
   create_table "death_threshold_adjustments", force: true do |t|
-    t.integer  "character_id",   null: false
-    t.integer  "change",         null: false
-    t.string   "reason",         null: false
-    t.integer  "approved_by_id"
-    t.datetime "approved_at"
-    t.boolean  "approved"
+    t.integer  "character_id",            null: false
+    t.integer  "change",                  null: false
+    t.string   "reason"
+    t.boolean  "overall_approval_status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"
-    t.string   "comment"
+    t.date     "decision_date"
+    t.integer  "user_id"
     t.index ["character_id"], :name => "index_death_threshold_adjustments_on_character_id"
     t.index ["declared_on"], :name => "index_death_threshold_adjustments_on_declared_on"
   end
@@ -183,12 +226,12 @@ ActiveRecord::Schema.define(version: 20160722205455) do
     t.boolean  "provisional"
     t.date     "declared_on"
     t.integer  "start_points"
-    t.boolean  "approved"
-    t.datetime "approved_at"
-    t.integer  "approved_by_id"
+    t.boolean  "overall_approval_status"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "comment"
+    t.string   "reason"
+    t.date     "decision_date"
+    t.integer  "user_id"
     t.index ["character_id"], :name => "index_guild_memberships_on_character_id"
     t.index ["declared_on"], :name => "index_guild_memberships_on_declared_on"
   end
@@ -242,13 +285,18 @@ ActiveRecord::Schema.define(version: 20160722205455) do
   end
 
   create_table "game_applications", force: true do |t|
-    t.integer  "game_id",    null: false
-    t.integer  "user_id",    null: false
-    t.text     "details",    null: false
+    t.integer  "game_id",                                 null: false
+    t.integer  "user_id",                                 null: false
+    t.text     "reason",                                  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "approved"
-    t.string   "comment"
+    t.boolean  "overall_approval_status"
+    t.string   "title"
+    t.integer  "lower_rank"
+    t.integer  "upper_rank"
+    t.boolean  "looking_for_gm",          default: false, null: false
+    t.date     "decision_date"
+    t.date     "declared_on"
   end
 
   create_table "game_attendances", force: true do |t|
@@ -305,30 +353,27 @@ ActiveRecord::Schema.define(version: 20160722205455) do
   end
 
   create_table "monster_point_adjustments", force: true do |t|
-    t.integer  "user_id",        null: false
-    t.integer  "points",         null: false
-    t.string   "reason",         null: false
-    t.integer  "approved_by_id"
-    t.datetime "approved_at"
-    t.boolean  "approved"
+    t.integer  "user_id",                 null: false
+    t.integer  "points",                  null: false
+    t.string   "reason"
+    t.boolean  "overall_approval_status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"
-    t.string   "comment"
+    t.date     "decision_date"
     t.index ["declared_on"], :name => "index_monster_point_adjustments_on_declared_on"
     t.index ["user_id"], :name => "index_monster_point_adjustments_on_user_id"
   end
 
   create_table "monster_point_declarations", force: true do |t|
-    t.integer  "user_id",        null: false
-    t.integer  "points",         null: false
-    t.integer  "approved_by_id"
-    t.datetime "approved_at"
-    t.boolean  "approved"
+    t.integer  "user_id",                 null: false
+    t.integer  "points",                  null: false
+    t.boolean  "overall_approval_status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"
-    t.string   "comment"
+    t.string   "reason"
+    t.date     "decision_date"
     t.index ["declared_on"], :name => "index_monster_point_declarations_on_declared_on"
     t.index ["user_id"], :name => "index_monster_point_declarations_on_user_id", :unique => true
   end

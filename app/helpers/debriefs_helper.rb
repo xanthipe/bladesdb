@@ -5,6 +5,7 @@ module DebriefsHelper
       close_date = game_start_date + 20.days
     else
       close_date = game_start_date + 13.days
+    end
   end
-  
+
 end

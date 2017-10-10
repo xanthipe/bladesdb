@@ -1,0 +1,23 @@
+<%= if approvals.empty? %>
+
+  <p>No outstanding debriefs.</p>
+
+<%= else %>
+
+  <table id="pending" class="prestyled">
+    <thead>
+      <tr>
+        <th>Request</th>
+        <th>Last Updated</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% pendings.to_a.each do |pending| %>
+        <tr id="pendingrow<%= pending.id %>" class="<%= cycle('odd', 'even') %>">
+          <%= render :partial => "pending_summary", :locals => { :pending => pending } %>
+        </tr>
+    </tbody>
+  </table>
+
+<%= end %>

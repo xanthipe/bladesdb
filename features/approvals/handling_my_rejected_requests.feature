@@ -18,7 +18,7 @@ Feature: Handling My Rejected Requests
     When the user withdraws the rejected monster point declaration from the dashboard
     Then the rejected monster point declaration should be removed from the dashboard
 		And a monster point declaration withdrawn message should be displayed
-		And the user's monster points should remain at 0.
+		And the user's monster points should remain at 0
 
   Scenario: User cannot edit a rejected Monster Point Adjustment request
     Given the user has a rejected monster point adjustment
@@ -41,7 +41,7 @@ Feature: Handling My Rejected Requests
     When the user withdraws the rejected character creation request from the dashboard
     Then the rejected character creation request should be removed from the dashboard
 		And a character creation withdrawn message should be displayed
-		And the character should become an undeclared character.
+		And the character should become an undeclared character
 
   Scenario: User can edit a rejected Character Declaration request
 		Given the user has an undeclared character
@@ -56,21 +56,22 @@ Feature: Handling My Rejected Requests
     When the user withdraws the rejected character declaration request from the dashboard
     Then the rejected character declaration request should be removed from the dashboard
 		And a character declaration withdrawn message should be displayed
-		And the character should become an undeclared character.
+		And the character should become an undeclared character
 
-  Scenario: User cannot edit a rejected Recycle Character request
+  Scenario: User can edit a rejected Recycle Character request
 		Given the user has a character
 		And the character is at rank 5.0
 		And the user has a rejected recycle character request
     When the user inspects the rejected recycle character request on the dashboard
-    Then there should be no option to edit the rejected recycle character request
+		Then there should be no option to edit the rejected character recycle request
 
-  Scenario: User cannot withdraw a rejected Recycle Character request
+  Scenario: User can withdraw a rejected Recycle Character request
 		Given the user has a character
 		And the character is at rank 5.0
 		And the user has a rejected recycle character request
-    When the user inspects the rejected recycle character request on the dashboard
-    Then there should be no option to withdraw the rejected recycle character request
+    When the user withdraws the rejected recycle character request on the dashboard
+		Then the rejected character recycle request should be removed from the dashboard
+		And a character recycle request withdrawn message should be displayed
 
   Scenario: User cannot edit a rejected Character Resurrection request
 		Given the user has a character

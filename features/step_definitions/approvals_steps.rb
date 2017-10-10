@@ -401,6 +401,10 @@ When(/^the user inspects the rejected recycle character request on the dashboard
   pending # Write code here that turns the phrase above into concrete actions
 end
 
+When(/^the user withdraws the rejected recycle character request on the dashboard$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
 When(/^the user inspects the rejected resurrect character request on the dashboard$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
@@ -919,7 +923,7 @@ Then(/^there should be no option to edit the rejected recycle character request$
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Then(/^there should be no option to withdraw the rejected recycle character request$/) do
+Then(/^the rejected character recycle request should be removed from the dashboard$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 

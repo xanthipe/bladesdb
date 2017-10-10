@@ -1,7 +1,6 @@
 class Character < ActiveRecord::Base
     belongs_to :user
     belongs_to :race
-    belongs_to :approved_by, :class_name => "User"
     has_many :guild_memberships, -> { order declared_on: :asc, id: :asc }
     accepts_nested_attributes_for :guild_memberships
     has_many :game_attendances
@@ -11,17 +10,22 @@ class Character < ActiveRecord::Base
     has_many :death_threshold_adjustments
     has_many :debits
     has_many :credits
+    has_many :character_resurrections
+    has_one :character_recycling
+    has_one :character_declaration
     has_one :character_state, -> { includes( current_guild_membership: [ { guild: :titles }, :guild_branch ] ) }
 
     # Constants
     Active = "active"
     Retired = "retired"
     PermDead = "permdead"
-    Undeclared = "undeclared" # Applies to characters imported from LARPdb.
+    Undeclared = "undeclared" # Applies to characters imported from LARPdb or created by a GM.
     Recycled = "recycled"
 
     validates_presence_of :user_id
+    validates_presence_of :character_id
     validates_presence_of :name
+    validates_presence_of :race_id, :unless => :undeclared?
     validates_presence_of :starting_points, :unless => :undeclared?
     validates_numericality_of :starting_points, :unless => :undeclared?, :greater_than_or_equal_to => 20
     validates_presence_of :starting_florins, :unless => :undeclared?
@@ -43,125 +47,7 @@ class Character < ActiveRecord::Base
 
     auto_strip_attributes :name, :biography, :address, :notes, :gm_notes
 
-    # Somewhere to store the points total after the first time it's calculated.
-    @total_points = nil
-    @death_thresholds = nil
-    @current_guild_membership = nil
-
-    def self.pending_characters(except_user)
-        Character.where(approved: nil).where.not(user_id: except_user.id).where.not(state: Character::Undeclared)
-    end
-
-    def played_games
-        self.debriefs.to_a.map{|debrief| debrief.game}
-    end
-
-    def undeclared?
-        state == Undeclared
-    end
-
-    def recycled?
-        state == Recycled
-    end
-
-    def can_recycle?
-        (points < 200) and (debriefs.joins(:game).where(games: { non_stats: false }).count <= 3) and not recycled?
-    end
-
-    def is_provisional?
-        approved.nil?
-    end
-
-    def approved?
-        self.approved == true
-    end
-
-    def retire
-        if active?
-            state = Retired
-        end
-    end
-
-    def reactivate
-        if retired?
-            state = Active
-        end
-    end
-
-    def perm_kill
-        state = PermDead
-    end
-
-    def resurrect_from_perm_death
-        if dead?
-            state = Active
-        end
-    end
-
-    def approve(current_user)
-        @approval_recently_set = true
-        self.approved = true
-        self.approved_on = Date.today
-        self.approved_by = current_user
-    end
-
-    def reject(current_user)
-        @approval_recently_set = true
-        self.approved = false
-        self.approved_on = Date.today
-        self.approved_by = current_user
-    end
-
-    def approval_recently_set?
-        @approval_recently_set
-    end
-
-    def name_and_title(unescaped = false)
-        unless title.blank?
-            "#{title} #{name}"
-        else
-            unless (guild.nil? || no_title == true)
-                guild_title = guild.calculate_title(points - (current_guild_membership.calculated_start_points || 0))
-                if guild_title.include? "BRANCH"
-                   branch_title = current_guild_membership.guild_branch.nil? ? " " : current_guild_membership.guild_branch.branch_title
-                   guild_title = guild_title.sub(/BRANCH/, branch_title.to_s)
-                end
-                "#{guild_title} #{name}"
-            else
-                name
-            end
-        end
-    end
-
-    def title_name_and_rank(unescaped = false)
-        "#{name_and_title(unescaped)} (#{rank})"
-    end
-
-    def points_on(date)
-        cumulative_points = starting_points
-        debriefs.joins(:game).where(games: {debrief_started: true, open: false}).where("games.start_date >= ? AND games.start_date <= ?", declared_on, date).each do |debrief|
-            cumulative_points += debrief.points
-        end
-        cumulative_points += monster_point_spends.where("spent_on >= ? AND spent_on <= ?", declared_on, date).sum(:character_points_gained)
-        cumulative_points += character_point_adjustments.where(approved: true).where("declared_on >= ? AND declared_on <= ?", declared_on, date).sum(:points)
-        return cumulative_points
-    end
-
-    def rank_on(date)
-        points_on(date)/10.0
-    end
-
-    def points
-        @total_points ||= character_state.points.to_i
-    end
-
-    def rank
-        points/10.0
-    end
-
-    def death_thresholds
-        @death_thresholds ||= character_state.death_thresholds.to_i
-    end
+    # States and State Changes
 
     def state_readable
         case
@@ -194,6 +80,48 @@ class Character < ActiveRecord::Base
         state == Undeclared
     end
 
+    def recycled?
+        state == Recycled
+    end
+
+    def can_recycle?
+        (points < 200) and (debriefs.joins(:game).where(games: { non_stats: false }).count <= 3) and not recycled?
+    end
+
+    def retire
+        if active?
+            state = Retired
+        end
+    end
+
+    def reactivate
+        if retired?
+            state = Active
+        end
+    end
+
+    def perm_kill
+        state = PermDead
+    end
+
+    def resurrect_from_perm_death
+        if dead?
+            state = Active
+        end
+    end
+
+    # Death Thresholds
+
+    @death_thresholds = nil
+
+    def death_thresholds
+        @death_thresholds ||= character_state.death_thresholds.to_i
+    end
+
+    # Guild Status and Titles
+
+    @current_guild_membership = nil
+
     def guild_membership_on(date)
         approved_memberships = guild_memberships.where(approved: true).where("declared_on <= ?", date).includes(:guild)
         all_memberships = guild_memberships.where("declared_on <= ?", date).includes(:guild)
@@ -221,6 +149,29 @@ class Character < ActiveRecord::Base
         guild.nil? ? "" : current_guild_membership.full_guild_name
     end
 
+    def name_and_title(unescaped = false)
+        unless title.blank?
+            "#{title} #{name}"
+        else
+            unless (guild.nil? || no_title == true)
+                guild_title = guild.calculate_title(points - (current_guild_membership.calculated_start_points || 0))
+                if guild_title.include? "BRANCH"
+                   branch_title = current_guild_membership.guild_branch.nil? ? " " : current_guild_membership.guild_branch.branch_title
+                   guild_title = guild_title.sub(/BRANCH/, branch_title.to_s)
+                end
+                "#{guild_title} #{name}"
+            else
+                name
+            end
+        end
+    end
+
+    def title_name_and_rank(unescaped = false)
+        "#{name_and_title(unescaped)} (#{rank})"
+    end
+
+    # Money
+
     def money
         money_on(Date.today)
     end
@@ -237,6 +188,36 @@ class Character < ActiveRecord::Base
                 "#{date_of_birth.strftime('%d %b')} #{1900 - date_of_birth.year} BE"
             end
         end
+    end
+
+    # Points and Playing
+
+    @total_points = nil
+
+    def points_on(date)
+        cumulative_points = starting_points
+        debriefs.joins(:game).where(games: {debrief_started: true, open: false}).where("games.start_date >= ? AND games.start_date <= ?", declared_on, date).each do |debrief|
+            cumulative_points += debrief.points
+        end
+        cumulative_points += monster_point_spends.where("spent_on >= ? AND spent_on <= ?", declared_on, date).sum(:character_points_gained)
+        cumulative_points += character_point_adjustments.where(approved: true).where("declared_on >= ? AND declared_on <= ?", declared_on, date).sum(:points)
+        return cumulative_points
+    end
+
+    def rank_on(date)
+        points_on(date)/10.0
+    end
+
+    def points
+        @total_points ||= character_state.points.to_i
+    end
+
+    def rank
+        points/10.0
+    end
+
+    def played_games
+        self.debriefs.to_a.map{|debrief| debrief.game}
     end
 
     def played_before(date)
@@ -357,7 +338,7 @@ class Character < ActiveRecord::Base
                     event.provisional = true
                     event.rejected = false
                     event.comment = "Reason: #{adjustment.reason}\nNot yet approved."
-                elsif adjustment.is_denied?
+                elsif adjustment.is_rejected?
                     event.provisional = false
                     event.rejected = true
                     if adjustment.approved_by.nil?
@@ -388,7 +369,7 @@ class Character < ActiveRecord::Base
                     event.provisional = true
                     event.rejected = false
                     event.comment = "Reason: #{adjustment.reason}\nNot yet approved."
-                elsif adjustment.is_denied?
+                elsif adjustment.is_rejected?
                     event.provisional = false
                     event.rejected = true
                     if adjustment.approved_by.nil?
