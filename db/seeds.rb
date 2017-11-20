@@ -1,25 +1,10 @@
 # This file contains all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
-# Food Categories
-FoodCategory.create(id: 1, description: "All") unless FoodCategory.exists?(1)
-FoodCategory.create(id: 2, description: "Friday") unless FoodCategory.exists?(2)
-FoodCategory.create(id: 3, description: "Saturday") unless FoodCategory.exists?(3)
-FoodCategory.create(id: 4, description: "Sunday") unless FoodCategory.exists?(4)
-FoodCategory.create(id: 5, description: "IC meal") unless FoodCategory.exists?(5)
-FoodCategory.create(id: 6, description: "Other") unless FoodCategory.exists?(6)
-
-# Food Sub-Categories
-FoodSubCategory.create(id: 1, description: "Breakfast") unless FoodSubCategory.exists?(1)
-FoodSubCategory.create(id: 2, description: "Lunch") unless FoodSubCategory.exists?(2)
-FoodSubCategory.create(id: 3, description: "Dinner") unless FoodSubCategory.exists?(3)
-FoodSubCategory.create(id: 4, description: "Snack") unless FoodSubCategory.exists?(4)
-FoodSubCategory.create(id: 5, description: "Midnight snack") unless FoodSubCategory.exists?(5)
-FoodSubCategory.create(id: 6, description: "Buffet") unless FoodSubCategory.exists?(6)
-FoodSubCategory.create(id: 7, description: "Starter") unless FoodSubCategory.exists?(7)
-FoodSubCategory.create(id: 8, description: "Main") unless FoodSubCategory.exists?(8)
-FoodSubCategory.create(id: 9, description: "Dessert") unless FoodSubCategory.exists?(9)
-FoodSubCategory.create(id: 10, description: "Other") unless FoodSubCategory.exists?(10)
+# Boards
+Board.create(id: 1, name: "OOC Announcements", blurb: "Any committee/website/character ref announcements will be posted to this board. Please do not post replies directly here - if you have any queries/responses, please \"email the committee\":mailto:committee@bathlarp.co.uk or post to another appropriate board.") unless Board.exists?(1)
+Board.create(id: 2, name: "Game Briefs", blurb: "This board is for game announcements and briefs. Please do not post replies/queries here - e-mail the poster directly, or post to another board.") unless Board.exists?(2)
+Board.create(id: 3, name: "Game Debriefs", blurb: "This board is for game debriefs. Please do not post replies/queries here - e-mail the poster directly, or post on another board.") unless Board.exists?(3)
 
 # Guilds
 [{id: 1, name: "Defenders", tithe_percentage: 0, proscribed: false},
@@ -124,7 +109,7 @@ unless SidebarCategory.exists?
   SidebarCategory.create(id: 5, name: "About Tony LARP", order: 5, show_for_non_users: true, show_for_admin_users_only: false, editable: true)
   SidebarCategory.create(id: 6, name: "Message Boards", order: 7, show_for_non_users: false, show_for_admin_users_only: false, editable: false)
   SidebarCategory.create(id: 7, name: "Campaigns", order: 6, show_for_non_users: true, show_for_admin_users_only: false, editable: true)
-  
+
   SidebarEntry.create(id: 1, name: "Manage Static Pages", order: 1, sidebar_category_id: 1, url: "/pages", editable: false)
   SidebarEntry.create(id: 2, name: "Manage Sidebar Contents", order: 2, sidebar_category_id: 1, url: "/sidebar/edit", editable: false)
   SidebarEntry.create(id: 3, name: "Manage Message Boards", order: 3, sidebar_category_id: 1, url: "/boards/admin", editable: false)
@@ -187,7 +172,7 @@ end
 
 # Admin User
 unless User.exists?(1)
-  user = User.create(username: "admin", email: "test@test.com", name: "Admin User", password: "changeme", password_confirmation: "changeme") 
+  user = User.create(username: "admin", email: "test@test.com", name: "Admin User", password: "changeme", password_confirmation: "changeme")
   user.confirmed_at = Time.now
   user.activate
   user.save

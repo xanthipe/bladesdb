@@ -1,27 +1,27 @@
 # Set-up steps
 
 Given(/^the user has a pending character creation request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterTestHelper.create_pending_character(User.first)
 end
 
 Given(/^the user has a pending character declaration request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterTestHelper.create_character_declaration(Character.first)
 end
 
 Given(/^the user has a pending recycle character request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterRecycleTestHelper.create_character_recycle(Character.first)
 end
 
 Given(/^the user has a pending resurrect character request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterResurrectionTestHelper.create_character_resurrection(Character.first)
 end
 
 Given(/^the user has a pending join Guild request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  GuildTestHelper.join_guild(Character.first, Guild.last)
 end
 
 Given(/^the user has a pending provisional join Guild request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  GuildTestHelper.join_guild(Character.first, Guild.last, provisional: true)
 end
 
 Given(/^the user has a pending change Guild request for the character$/) do

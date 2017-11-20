@@ -4,7 +4,7 @@ end
 
 Given(/^the user is a player of the first game$/) do
   user = UserTestHelper.create_or_find_user
-  character = CharacterTestHelper.create_character(user)
+  character = CharacterTestHelper.create_approved_character(user)
   CharacterTestHelper.approve_character(user)
   GameTestHelper.add_player user, character, to: Game.first
 end
@@ -16,7 +16,7 @@ end
 
 Given(/^the other user is a player of the second game$/) do
   user = UserTestHelper.create_or_find_another_user
-  character = CharacterTestHelper.create_character(user, name: "Nijel the Destroyer")
+  character = CharacterTestHelper.create_approved_character(user, name: "Nijel the Destroyer")
   CharacterTestHelper.approve_character(user)
   GameTestHelper.add_player user, character, to: Game.all.second
 end

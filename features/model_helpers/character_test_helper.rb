@@ -1,30 +1,35 @@
 module CharacterTestHelper
   module_function # Ensure that all subsequent methods are available as Module Functions
 
-  def create_character(user, name: "Testy McTesterson", race: Race.first, starting_points: 20, starting_florins: 0, starting_death_thresholds: 10, state: "active", title: "", no_title: false, declared_on: 5.years.ago)
+  def create_pending_character(user, name: "Testy McTesterson", race: Race.first, starting_points: 20, starting_florins: 0, starting_death_thresholds: 10, state: "active", title: "", no_title: false, declared_on: 5.years.ago)
       character = user.characters.create_with(race: race, starting_points: starting_points, starting_florins: starting_florins, starting_death_thresholds: starting_death_thresholds, state: state, title: title, declared_on: declared_on, no_title: no_title).find_or_create_by!(name: name)
-      guild_membership = character.guild_memberships.build
-      guild_membership.character = character
-      guild_membership.start_points = 0
-      guild_membership.declared_on = character.declared_on
-      guild_membership.provisional = false
-      guild_membership.approved = true
       character.save!
       character
   end
 
-  def set_starting_points(character, points)
-      character.starting_points = points
-      character.save!
+  def create_approved_character(user, name: "Testy McTesterson", race: Race.first, starting_points: 20, starting_florins: 0, starting_death_thresholds: 10, state: "active", title: "", no_title: false, declared_on: 5.years.ago)
+    character = create_pending_character(user, name, race, starting_points, starting_florins, starting_death_thresholds, state, title, no_title, declared_on)
+    approve_character(user, character)
   end
 
-  def approve_character(character, user)
-      character.approve(user)
-      character.save!
+  def create_rejected_character(user, name: "Testy McTesterson", race: Race.first, starting_points: 20, starting_florins: 0, starting_death_thresholds: 10, state: "active", title: "", no_title: false, declared_on: 5.years.ago)
+    character = create_pending_character(user, name, race, starting_points, starting_florins, starting_death_thresholds, state, title, no_title, declared_on)
+    reject_character(user, character)
   end
 
   def create_undeclared_character(user, name: "Testy McTesterson")
-      user.characters.create_with(race: Race.find_by(name: "Human"), state: Character::Undeclared, starting_death_thresholds: 0).find_or_create_by!(name: name)
+      create_pending_character(user, name: name, state: Character::Undeclared, declared_on: '2010-04-19')
+  end
+
+  def undeclare_character
+      character = Character.first
+      character.state = Character::Undeclared
+      character.save!
+  end
+
+  def make_pending(character)
+      character.approved = nil
+      character.save!
   end
 
   def approve_character(user = nil, character = nil)
@@ -52,26 +57,12 @@ module CharacterTestHelper
       character.save!
   end
 
-  def update_starting_rank(points)
+  # Change character attributes
+
+  def update_starting_rank(character, points)
     character = Character.first
     character.starting_points = points
     character.save!
-  end
-
-  def add_character_point_adjustment(character, points, date = nil, approver = nil, approved: true)
-    date = Date.today - 1.day if date.nil?
-    approver = User.first
-    cpa = CharacterPointAdjustment.new
-    cpa.character = character
-    cpa.declared_on = date
-    cpa.points = points
-    cpa.reason = "Test"
-    if !approved.nil?
-      cpa.approved = approved
-      cpa.approved_at = date
-      cpa.approved_by = approver
-    end
-    cpa.save!
   end
 
   def update_title(title)
@@ -86,32 +77,6 @@ module CharacterTestHelper
     character.save!
   end
 
-  def undeclare_character
-      character = Character.first
-      character.state = Character::Undeclared
-      character.save!
-  end
-
-  def make_pending(character)
-      character.approved = nil
-      character.save!
-  end
-
-  def add_character_point_adjustment(character, points, date = nil, approver = nil, approved: true)
-    date = Date.today - 5.years if date.nil?
-    approver = character.user if approver.nil?
-    cpa = CharacterPointAdjustment.new
-    cpa.character = character
-    cpa.declared_on = date
-    cpa.points = points
-    cpa.reason = "Test"
-    if !approved.nil?
-      cpa.approved = approved
-      cpa.approved_at = date
-      cpa.approved_by = approver
-    end
-    cpa.save!
-  end
 
   # Validations
 

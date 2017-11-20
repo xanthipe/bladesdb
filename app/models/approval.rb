@@ -11,9 +11,9 @@ class Approval < ActiveRecord::Base
     validates_presence_of :approved_by, :unless => "approved.nil?"
     validates_presence_of :rejection_reason, :if => "approved == false"
 
-    def self.outstanding_approvals(except_user)
-      approvals.where(approved: nil, role_id:).join.approvable.where.not(overall_decision_status: false).or.not(user_id: except_user.id)
-        # Any Approval where approved.nil?, thing is not rejected, user has role_id and user doesn't own the thing
+    def self.outstanding_approvals(current_user)
+      approvals.where(approved: nil, role_id: current_user.roles.id.to_a).joins.approvable.where.not(overall_decision_status: false).where.not(user_id: current_user.id)
+        # Any Approval where approved.nil? and user has role_id, thing is not rejected, and user doesn't own the thing
     end
 
     private

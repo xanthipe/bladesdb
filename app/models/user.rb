@@ -221,6 +221,10 @@ class User < ActiveRecord::Base
         is_admin? || is_committee? || is_character_ref?
     end
 
+    def is_responsible_adult?
+      is_admin? || is_committee? || is_character_ref? || is_first_aider? || is_insurance?
+    end
+
     def is_gm_for?( character_or_user )
         is_gm = false
         if character_or_user.is_a? Character
@@ -449,15 +453,15 @@ class User < ActiveRecord::Base
     end
 
     def can_spend_monster_points?
-        monster_points > 0 and monster_point_adjustments.where(approved: nil).empty? and
-          (monster_point_declaration.nil? or !monster_point_declaration.is_provisional?)
+        monster_points > 0 and monster_point_adjustments.where(overall_decision_status: nil).empty? and
+          (monster_point_declaration.nil? or !monster_point_declaration.is_pending?)
     end
 
     def reason_for_being_unable_to_spend_monster_points
         case
         when monster_points <= 0
             "No monster points available"
-        when !monster_point_adjustments.where(approved: nil).empty?
+        when !monster_point_adjustments.where(overall_decision_status: nil).empty?
             "Outstanding character point adjustment requests"
         when (!monster_point_declaration.nil? and monster_point_declaration.is_provisional?)
             "Outstanding monster point declaration"

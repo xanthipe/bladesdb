@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20170930201841) do
   create_table "character_declarations", force: true do |t|
     t.integer "user_id",                                          null: false
     t.integer "character_id",                                     null: false
-    t.date    "declared_on",               default: '2017-10-01', null: false
+    t.date    "declared_on",               default: '2017-11-04', null: false
     t.string  "name",                                             null: false
     t.integer "race_id",                                          null: false
     t.integer "guild_id"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20170930201841) do
     t.integer  "character_id",            null: false
     t.integer  "points",                  null: false
     t.string   "reason"
-    t.boolean  "overall_approval_status"
+    t.boolean  "overall_decision_status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 20170930201841) do
   create_table "character_recyclings", force: true do |t|
     t.integer "character_id"
     t.integer "user_id"
+    t.date    "declared_on"
     t.string  "reason"
     t.date    "decision_date"
     t.boolean "overall_decision_status"
@@ -119,6 +120,7 @@ ActiveRecord::Schema.define(version: 20170930201841) do
   create_table "character_resurrections", force: true do |t|
     t.integer "character_id"
     t.integer "user_id"
+    t.date    "declared_on"
     t.string  "reason"
     t.date    "decision_date"
     t.boolean "overall_decision_status"
@@ -128,8 +130,6 @@ ActiveRecord::Schema.define(version: 20170930201841) do
     t.integer  "user_id",                                          null: false
     t.string   "name",                                             null: false
     t.integer  "race_id",                                          null: false
-    t.integer  "guild_id"
-    t.integer  "guild_start_points"
     t.integer  "starting_points",           default: 20,           null: false
     t.integer  "starting_florins",          default: 0,            null: false
     t.integer  "starting_death_thresholds",                        null: false
@@ -143,7 +143,6 @@ ActiveRecord::Schema.define(version: 20170930201841) do
     t.date     "declared_on",               default: '2010-04-19', null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "branch_id"
     t.text     "gm_notes"
     t.text     "player_notes"
     t.boolean  "preferred_character",       default: false,        null: false
@@ -165,7 +164,7 @@ ActiveRecord::Schema.define(version: 20170930201841) do
     t.integer  "character_id",            null: false
     t.integer  "change",                  null: false
     t.string   "reason"
-    t.boolean  "overall_approval_status"
+    t.boolean  "overall_decision_status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"
@@ -226,7 +225,7 @@ ActiveRecord::Schema.define(version: 20170930201841) do
     t.boolean  "provisional"
     t.date     "declared_on"
     t.integer  "start_points"
-    t.boolean  "overall_approval_status"
+    t.boolean  "overall_decision_status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "reason"
@@ -290,7 +289,7 @@ ActiveRecord::Schema.define(version: 20170930201841) do
     t.text     "reason",                                  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "overall_approval_status"
+    t.boolean  "overall_decision_status"
     t.string   "title"
     t.integer  "lower_rank"
     t.integer  "upper_rank"
@@ -356,7 +355,7 @@ ActiveRecord::Schema.define(version: 20170930201841) do
     t.integer  "user_id",                 null: false
     t.integer  "points",                  null: false
     t.string   "reason"
-    t.boolean  "overall_approval_status"
+    t.boolean  "overall_decision_status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"
@@ -368,7 +367,7 @@ ActiveRecord::Schema.define(version: 20170930201841) do
   create_table "monster_point_declarations", force: true do |t|
     t.integer  "user_id",                 null: false
     t.integer  "points",                  null: false
-    t.boolean  "overall_approval_status"
+    t.boolean  "overall_decision_status"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "declared_on"

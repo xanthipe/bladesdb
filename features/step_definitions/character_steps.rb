@@ -1,23 +1,19 @@
 # Conditions
 
 Given(/^the user has a character$/) do
-  CharacterTestHelper.create_character(User.first)
-  CharacterTestHelper.approve_character(User.first)
+  CharacterTestHelper.create_approved_character(User.first)
 end
 
 Given(/^the user has another character$/) do
-  CharacterTestHelper.create_character(User.first, name: "Second Character")
-  CharacterTestHelper.approve_character(User.first, User.first.characters.second)
+  CharacterTestHelper.create_approved_character(User.first, name: "Second Character")
 end
 
 Given(/^the other user has an active character$/) do
-  CharacterTestHelper.create_character(User.all.second)
-  CharacterTestHelper.approve_character(User.all.second)
+  CharacterTestHelper.create_approved_character(User.all.second)
 end
 
 Given(/^the other user has a character$/) do
-  CharacterTestHelper.create_character(User.all.second, name: "Nigel the Magnificent")
-  CharacterTestHelper.approve_character(User.all.second, Character.all.second)
+  CharacterTestHelper.create_approved_character(User.all.second, name: "Nigel the Magnificent")
 end
 
 Given(/^the other user has a GM\-created character$/) do
@@ -30,66 +26,57 @@ Given(/^the character is a player on the game$/) do
 end
 
 Given(/^the character has (\d+) character points(?: before the games?)?$/) do |points|
-  CharacterTestHelper.set_starting_points(Character.first, points)
-end
-
-Given(/^the character is pending approval$/) do
-  CharacterTestHelper.make_pending(Character.first)
-end
-
-Given(/^the character is retired$/) do
-  CharacterTestHelper.retire_character
-end
-
-Given(/^the character is dead$/) do
-  CharacterTestHelper.permdeath_character
-end
-
-Given(/^the character is permadead$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the character is recycled$/) do
-  CharacterTestHelper.recycle_character
-end
-
-Given(/^the character is undeclared$/) do
-  CharacterTestHelper.undeclare_character
+  CharacterTestHelper.update_starting_rank(Character.first, points)
 end
 
 Given(/^there is a character point adjustment on the character$/) do
-  CharacterTestHelper.add_character_point_adjustment(Character.first, 1, 2.days.ago, approved: true)
+  CharacterPointAdjustmentTestHelper.add_character_point_adjustment(Character.first, 1, 2.days.ago, approved: true)
 end
 
 Given(/^there is a rejected character point adjustment on the character$/) do
-  CharacterTestHelper.add_character_point_adjustment(Character.first, 1, 2.days.ago, approved: false)
+  CharacterPointAdjustmentTestHelper.add_character_point_adjustment(Character.first, 1, 2.days.ago, approved: false)
 end
 
 Given(/^the character has a pending character point adjustment for (\d+) character points?$/) do |points|
-  CharacterTestHelper.add_character_point_adjustment(Character.first, points.to_i, 2.days.ago, approved: nil)
+  CharacterPointAdjustmentTestHelper.add_character_point_adjustment(Character.first, points.to_i, 2.days.ago, approved: nil)
 end
 
 Given(/^the character has a pending character point adjustment for \-(\d+) character points?$/) do |points|
-  CharacterTestHelper.add_character_point_adjustment(Character.first, -(points.to_i), 2.days.ago, approved: nil)
+  CharacterPointAdjustmentTestHelper.add_character_point_adjustment(Character.first, -(points.to_i), 2.days.ago, approved: nil)
 end
 
 Given(/^the user has an undeclared character$/) do
   CharacterTestHelper.create_undeclared_character(User.first)
 end
 
+Given(/^the user has a pending character$/) do
+  CharacterTestHelper.create_pending_character(User.first)
+end
+
+Given(/^the user has a recycled character$/) do
+  CharacterTestHelper.create_recycled_character(User.first)
+end
+
+Given(/^the user has a permadead character$/) do
+  CharacterTestHelper.create_permadead_character(User.first)
+end
+
+Given(/^the user has a retired character$/) do
+  CharacterTestHelper.create_retired_character(User.first)
+end
+
 Given(/^the user has a character that can be recycled$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterTestHelper.create_approved_character(User.first)
 end
 
 Given(/^the user has a character declared one month before the monster spend cut\-off$/) do
-  CharacterTestHelper.create_character(User.first, declared_on: '2016-12-07')
-  CharacterTestHelper.approve_character(User.first)
+  CharacterTestHelper.create_approved_character(User.first, declared_on: '2016-12-07')
 end
 
 # Actions
 
 When(/^the character is at rank (.*?)$/) do |rank|
-  CharacterTestHelper.add_character_point_adjustment(Character.first, rank.to_i*10 - Character.first.starting_points)
+  CharacterPointAdjustmentTestHelper.add_character_point_adjustment(Character.first, rank.to_i*10 - Character.first.starting_points)
 end
 
 When(/^the user creates a new character with required values$/) do

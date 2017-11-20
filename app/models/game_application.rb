@@ -11,10 +11,8 @@ class GameApplication < ActiveRecord::Base
 
     auto_strip_attributes :details, :title
 
-
-    def reset
-        self.approved = nil
-        self.comment = nil
-    end
+    def approval_roles
+			approval_roles = [Roles.find_by(rolename: "committee")]
+		end
 
 end

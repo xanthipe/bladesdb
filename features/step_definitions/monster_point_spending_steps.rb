@@ -89,11 +89,11 @@ Given(/^the user has a rejected monster point adjustment since the monster point
 end
 
 Given(/^the character has a character point adjustment since the monster point spend$/) do
-  CharacterTestHelper.add_character_point_adjustment(Character.first, 1, MonsterPointSpend.first.spent_on + 1.day)
+  CharacterPointAdjustmentTestHelper.add_character_point_adjustment(Character.first, 1, MonsterPointSpend.first.spent_on + 1.day)
 end
 
 Given(/^the user has a rejected character point adjustment since the monster point spend$/) do
-  CharacterTestHelper.add_character_point_adjustment(Character.first, 1, MonsterPointSpend.first.spent_on + 1.day, approved: false)
+  CharacterPointAdjustmentTestHelper.add_character_point_adjustment(Character.first, 1, MonsterPointSpend.first.spent_on + 1.day, approved: false)
 end
 
 Given(/^the character has a monster point spend before the cut-off that takes the character to rank 10.0$/) do

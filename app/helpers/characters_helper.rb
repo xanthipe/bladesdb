@@ -3,13 +3,13 @@ require 'json'
 module CharactersHelper
     def display_character_field(character, partial_name)
         render(:partial => partial_name, :layout => "fieldlist_field", :locals => {
-            :character => character, 
+            :character => character,
             :is_owner => (character.user == current_user),
             :is_gm_for_character => (current_user.is_gm_for? character),
             :is_ref_for_character => (current_user.is_character_ref? and character.user != current_user)
         }).html_safe
     end
-    
+
     def state_actions(character)
         actions = []
         if character.user == current_user and character.approved == false
@@ -29,7 +29,7 @@ module CharactersHelper
         end
         return actions
     end
-    
+
     def display_spend_monster_points_link?(character)
         case
         when character.user.monster_points == 0
@@ -42,13 +42,13 @@ module CharactersHelper
           false
         when character.dead?
           false
-        when !character.approved?
+        when !character.is_approved?
           false
         else
-          true 
+          true
         end
     end
-    
+
     def reason_cannot_spend_monster_points(character)
         case
         when character.user.monster_points == 0
@@ -65,7 +65,7 @@ module CharactersHelper
           I18n.t("character.monster_points.not_on_unapproved_character")
         end
     end
-    
+
     def guild_map_json(character)
         (Guild.includes(:guild_branches).to_a.map { |guild| [guild.id, guild.guild_branches.map {|branch| [branch.id, branch.name]}.to_h]} + [["selected", character.guild_memberships.first.guild_branch_id ]]).to_h.to_json
     end

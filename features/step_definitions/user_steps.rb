@@ -91,11 +91,11 @@ Given(/^the user is logged in$/) do
 end
 
 Given(/^the character ref user is logged in$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.find_by_email("charles@mail.com").username, UserTestHelper::DEFAULT_PASSWORD
 end
 
 Given(/^the committee user is logged in$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  LoginPage.new.visit_page(new_user_session_path).and.login_with_credentials User.find_by_email("colin@mail.com").username, UserTestHelper::DEFAULT_PASSWORD
 end
 
 Given(/^the other user is a web-only user$/) do

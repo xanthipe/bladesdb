@@ -61,7 +61,7 @@ class Character < ActiveRecord::Base
     end
 
     def currently_active?
-        (state == Active) && (self.user.is_normal?) && self.approved?
+        (state == Active) && (self.user.is_normal?) && self.is_approved?
     end
 
     def active?
@@ -237,12 +237,12 @@ class Character < ActiveRecord::Base
     end
 
     def can_spend_monster_points?
-        character_point_adjustments.where(approved: nil).empty? and debriefs.joins(:game).where(games: {open: true}).empty? and approved == true and active?
+        character_point_adjustments.where(overall_decision_status: nil).empty? and debriefs.joins(:game).where(games: {open: true}).empty? and approved == true and active?
     end
 
     def reason_for_being_unable_to_spend_monster_points
         case
-        when !character_point_adjustments.where(approved: nil).empty?
+        when !character_point_adjustments.where(overall_decision_status: nil).empty?
             "Outstanding character point adjustment requests"
         when !debriefs.joins(:game).where(games: {open: true}).empty?
             "Outstanding debriefs"

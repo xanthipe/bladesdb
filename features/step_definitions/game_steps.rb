@@ -24,8 +24,7 @@ end
 
 Given(/^the user is a player of the game$/) do
   user = UserTestHelper.create_or_find_user
-  character = CharacterTestHelper.create_character(user)
-  CharacterTestHelper.approve_character(user)
+  character = CharacterTestHelper.create_approved_character(user)
   GameTestHelper.add_player user, character, to: Game.first
 end
 
@@ -36,8 +35,7 @@ end
 
 Given(/^the other user is a player of the game$/) do
   user = UserTestHelper.create_or_find_another_user
-  character = CharacterTestHelper.create_character(user)
-  CharacterTestHelper.approve_character(user)
+  character = CharacterTestHelper.create_approved_character(user)
   GameTestHelper.add_player user, character, to: Game.first
 end
 
@@ -57,7 +55,7 @@ end
 
 Given(/^there is a player for the game$/) do
   user = UserTestHelper.create_or_find_another_user(name: "Poppy Player", email: "player@mail.com", username: "player")
-  character = CharacterTestHelper.create_character(user)
+  character = CharacterTestHelper.create_approved_character(user)
   CharacterTestHelper.approve_character(user)
   GameTestHelper.add_player user, character, to: Game.first
 end

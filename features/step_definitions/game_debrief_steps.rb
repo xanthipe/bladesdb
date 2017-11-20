@@ -103,7 +103,7 @@ Then(/^the GM should appear in the GM\-created members list$/) do
 end
 
 Then(/^the character should not be removed from the game debrief$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  DebriefPage.new.visit_page(game_path(Game.first.id)).and.check_for_player(Game.first, User.first, Character.first)
 end
 
 Then(/^the debrief should be closed successfully$/) do

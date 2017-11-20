@@ -1,0 +1,11 @@
+<%= form_for([:character, @character_resurrection], :remote => true) do |f| %>
+    <%= f.error_messages :header_message => "Failed to save Character Recycle request.", :message => "The following problems prevented your request from being saved:" %>
+
+	<ul class="form">
+		<li>
+			<%= f.label :reason %><br />
+			<%= f.text_field :reason %>
+		</li>
+	</ul>
+
+<% end %>
