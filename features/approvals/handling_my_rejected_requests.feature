@@ -74,15 +74,13 @@ Feature: Handling My Rejected Requests
 		And a character recycle request withdrawn message should be displayed
 
   Scenario: User cannot edit a rejected Character Resurrection request
-		Given the user has a character
-		And the character is dead
+		Given the user has a permadead character
 		And the user has a rejected resurrect character request
     When the user inspects the rejected resurrect character request on the dashboard
     Then there should be no option to edit the rejected resurrect character request
 
   Scenario: User cannot withdraw a rejected Character Resurrection request
-		Given the user has a character
-		And the character is dead
+		Given the user has a permadead character
 		And the user has a rejected resurrect character request
     When the user inspects the rejected resurrect character request on the dashboard
     Then there should be no option to withdraw the rejected resurrect character request

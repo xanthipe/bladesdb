@@ -3,8 +3,6 @@ Feature: Rejecting Simple Approvals in situ
 	I want to be able to reject standard approvals with only one approver involved in situ
 	So the submitting user can redo them properly
 
-	# This needs updating to be in situ.
-
 	Scenario: Character Ref rejects a Monster Point Declaration in situ
 		Given there is a user
 		And the user has a pending monster point declaration
@@ -66,8 +64,7 @@ Feature: Rejecting Simple Approvals in situ
 
 	Scenario: Character Ref rejects a Resurrect Character request in situ
 		Given there is a user
-		And the user has a character
-		And the character is dead
+		And the user has a permadead character
 		And the user has a pending resurrect character request
 		And there is a character ref user
 		And the character ref user is logged in

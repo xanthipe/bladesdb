@@ -64,8 +64,7 @@ Feature: Rejecting Simple Approvals via the Dashboard
 
 	Scenario: Character Ref rejects a Resurrect Character request via the dashboard
 		Given there is a user
-		And the user has a character
-		And the character is dead
+		And the user has a permadead character
 		And the user has a pending resurrect character request
 		And there is a character ref user
 		And the character ref user is logged in

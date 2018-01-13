@@ -101,8 +101,7 @@ Feature: Editing and Withdrawing Approval Requests
 		And the character should remain active
 
   Scenario: User cannot edit a pending Character Resurrection request
-    Given the user has a character
-    And the character is permadead
+    Given the user has a permadead character
     And the user has a pending resurrect character request
 		When the user inspects the pending character resurrection request on the dashboard
     Then there should be no option to edit the pending character resurrection request

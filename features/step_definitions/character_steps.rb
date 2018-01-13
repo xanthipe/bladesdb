@@ -73,6 +73,15 @@ Given(/^the user has a character declared one month before the monster spend cut
   CharacterTestHelper.create_approved_character(User.first, declared_on: '2016-12-07')
 end
 
+Given(/^the character is dead$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^the character is retired$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+
 # Actions
 
 When(/^the character is at rank (.*?)$/) do |rank|

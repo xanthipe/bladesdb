@@ -919,7 +919,7 @@ Then(/^the rejected character declaration request should be removed from the das
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Then(/^there should be no option to edit the rejected recycle character request$/) do
+Then(/^there should be no option to edit the rejected character recycle request$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
@@ -1148,5 +1148,57 @@ Then(/^an approval for a death threshold adjustment from the Character Refs shou
 end
 
 Then(/^an approval for a game application from the Committee should be displayed on the dashboard page$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^there should be no monster point declaration for approval on the dashboard$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the monster point declaration$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the monster point adjustment$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the character creation request in situ$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the character declaration request in situ$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the recycle character request in situ$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the resurrect character request in situ$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the join guild request in situ$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the change guild request in situ$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the leave guild request in situ$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the character point adjustment request in situ$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the character death threshold adjustment request in situ$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^they should not be able to approve the game application in situ$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end

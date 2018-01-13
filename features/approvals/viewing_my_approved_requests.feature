@@ -40,8 +40,7 @@ Feature: Viewing My Approved Requests
 		And the user should have 30 monster points
 
 	Scenario: View an Approved Resurrect Character request
-		Given the user has a character
-		And the character is dead
+		Given the user has a permadead character
 		And the user has an approved resurrect character request
 		When the user views their approval history
 		Then an approval to resurrect the character from the Character Refs should be displayed on the dashboard page
