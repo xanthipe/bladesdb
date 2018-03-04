@@ -1,19 +1,11 @@
 # Set-ups
 
 Given(/^the user has a monster point adjustment$/) do
-  UserTestHelper.add_monster_point_adjustment(User.first, 20)
+  MonsterPointsAdjustmentTestHelper.create_approved_monster_point_adjustment(User.first)
 end
 
 Given(/^the other user has a monster point adjustment$/) do
-  UserTestHelper.add_monster_point_adjustment(User.all.second, 15, nil, User.first)
-end
-
-Given(/^the user has a pending monster point adjustment$/) do
-  UserTestHelper.add_monster_point_adjustment(User.first, 20, approved: nil)
-end
-
-Given(/^the user has a rejected monster point adjustment$/) do
-  UserTestHelper.add_monster_point_adjustment(User.first, 20, approved: false)
+  MonsterPointsAdjustmentTestHelper.create_approved_monster_point_adjustment(User.all.second, points: 15, approver: User.first)
 end
 
 # Actions

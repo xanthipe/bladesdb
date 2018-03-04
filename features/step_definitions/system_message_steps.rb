@@ -1,9 +1,11 @@
+# Registration and Login
+
 Then(/^the user should see a login access message$/) do
   HomePage.new.check_is_displaying_message I18n.t("devise.failure.unauthenticated")
 end
 
 Then(/^the user should see an unauthorised access message$/) do
-  HomePage.new.check_is_displaying_message I18n.t("failure.permission_denied")
+  HomePage.new.check_is_displaying_message I18n.t("permissions.failure.permission_denied")
 end
 
 Then(/^the user should see an already signed in message$/) do
@@ -22,33 +24,35 @@ Then(/^the user should see a successful login message$/) do
   HomePage.new.check_is_displaying_message I18n.t("devise.sessions.signed_in")
 end
 
+# User Profile Updates
+
 Then(/^a profile updated message should be displayed$/) do
-  ProfilePage.new.check_is_displaying_message I18n.t("user.success.own_profile_updated")
+  ProfilePage.new.check_is_displaying_message I18n.t("success.user.own_profile_updated")
 end
 
 Then(/^an other user\'s profile updated message should be displayed$/) do
   sleep 0.1 # Just enough delay to keep things in sync
-  ProfilePage.new.check_is_displaying_message I18n.t("user.success.other_profile_updated", name: User.all.second.name)
+  ProfilePage.new.check_is_displaying_message I18n.t("success.user.other_profile_updated", name: User.all.second.name)
 end
 
 Then(/^a name already in use message should be displayed$/) do
   profile = ProfilePage.new
-  profile.check_is_displaying_message I18n.t("user.validation.dialog_header")
-  profile.check_is_displaying_message I18n.t("user.validation.dialog_main")
-  profile.check_is_displaying_message I18n.t("user.validation.name_uniqueness")
+  profile.check_is_displaying_message I18n.t("validation.dialog_header", object: I18n.t("objects.user").downcase)
+  profile.check_is_displaying_message I18n.t("validation.dialog_main", object: I18n.t("objects.user").downcase)
+  profile.check_is_displaying_message I18n.t("validation.user.name_uniqueness")
 end
 
 Then(/^a login already in use message should be displayed$/) do
   profile = ProfilePage.new
-  profile.check_is_displaying_message I18n.t("user.validation.dialog_header")
-  profile.check_is_displaying_message I18n.t("user.validation.dialog_main")
-  profile.check_is_displaying_message I18n.t("user.validation.username_uniqueness")
+  profile.check_is_displaying_message I18n.t("validation.dialog_header", object: I18n.t("objects.user").downcase)
+  profile.check_is_displaying_message I18n.t("validation.dialog_main", object: I18n.t("objects.user").downcase)
+  profile.check_is_displaying_message I18n.t("validation.username_uniqueness")
 end
 
 Then(/^an email already in use message should be displayed$/) do
   profile = ProfilePage.new
-  profile.check_is_displaying_message I18n.t("user.validation.dialog_header")
-  profile.check_is_displaying_message I18n.t("user.validation.dialog_main")
+  profile.check_is_displaying_message I18n.t("validation.dialog_header", object: I18n.t("objects.user").downcase)
+  profile.check_is_displaying_message I18n.t("validation.dialog_main", object: I18n.t("objects.user").downcase)
   profile.check_is_displaying_message I18n.t("user.validation.email_uniqueness")
 end
 
@@ -61,15 +65,17 @@ Then(/^a password mismatch message should be displayed$/) do
 end
 
 Then(/^an activation email message should be displayed$/) do
-  MembersPage.new.check_is_displaying_message I18n.t("user.success.email_resent")
+  MembersPage.new.check_is_displaying_message I18n.t("success.user.email_resent")
 end
 
 Then(/^a roles updated message should be displayed$/) do
-  MembersPage.new.check_is_displaying_message I18n.t("user.success.roles_updated")
+  MembersPage.new.check_is_displaying_message I18n.t("success.updated", object: I18n.t("objects.roles"))
 end
 
+# Monster Point Declaration
+
 Then(/^a monster point declaration made message should be displayed$/) do
-  MonsterPointsPage.new.check_is_displaying_message I18n.t("user.monster_point_declaration.success.created")
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("success.created", object: I18n.t("objects.monster_point_declaration"))
 end
 
 Then(/^a negative monster point declaration not allowed message should be displayed$/) do
@@ -81,19 +87,23 @@ Then(/^a monster point declaration date must be in the past message should be di
 end
 
 Then(/^a monster point declaration updated message should be displayed$/) do
-  MonsterPointsPage.new.check_is_displaying_message I18n.t("user.monster_point_declaration.success.updated")
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("success.updated", object: I18n.t("objects.monster_point_declaration"))
 end
 
+# Monster Point Adjustment
+
 Then(/^a monster point adjustment requested message should be displayed$/) do
-  MonsterPointsPage.new.check_is_displaying_message I18n.t("user.monster_point_adjustment.success.created")
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("success.created", object: I18n.t("objects.monster_point_adjustment"))
 end
 
 Then(/^a monster point adjustment date must be in the past message should be displayed$/) do
   MonsterPointsPage.new.check_is_displaying_message I18n.t("errors.messages.on_or_before", restriction: Date.today.to_formatted_s)
 end
 
+# Pages
+
 Then(/^a home page cannot be deleted message should be displayed$/) do
-  PagesPage.new.check_is_displaying_message I18n.t("page.failure.home_deletion")
+  PagesPage.new.check_is_displaying_message I18n.t("failure.page.home_deletion")
 end
 
 Then(/^a page not available message should be displayed$/) do
@@ -101,31 +111,33 @@ Then(/^a page not available message should be displayed$/) do
 end
 
 Then(/^a page deleted message should be displayed$/) do
-  PagesPage.new.check_is_displaying_message I18n.t("page.success.deleted")
+  PagesPage.new.check_is_displaying_message I18n.t("success.deleted", object: I18n.t("objects.page"))
 end
 
 Then(/^a page updated message should be displayed$/) do
-  UserDefinedPage.new.check_is_displaying_message I18n.t("page.success.updated")
+  UserDefinedPage.new.check_is_displaying_message I18n.t("success.updated", object: I18n.t("objects.page"))
 end
 
 Then(/^a page created message should be displayed$/) do
-  UserDefinedPage.new.check_is_displaying_message I18n.t("page.success.created")
+  UserDefinedPage.new.check_is_displaying_message I18n.t("success.created", object: I18n.t("objects.page"))
 end
 
 Then(/^a duplicate page title message is displayed$/) do
-  UserDefinedPage.new.check_is_displaying_message I18n.t("page.validation.title_uniqueness")
+  UserDefinedPage.new.check_is_displaying_message I18n.t("validation.page.title_uniqueness")
 end
 
 Then(/^an empty page message is displayed$/) do
   UserDefinedPage.new.check_is_displaying_message I18n.t("errors.messages.blank", attribute: "Content")
 end
 
+# Character Declaration
+
 Then(/^a character created message should be displayed$/) do
-  UserCharactersPage.new.check_is_displaying_message I18n.t("character.success.created")
+  UserCharactersPage.new.check_is_displaying_message I18n.t("success.created", object: I18n.t("objects.character_declaration"))
 end
 
 Then(/^a character declared message should be displayed$/) do
-  UserCharactersPage.new.check_is_displaying_message I18n.t("character.success.declared")
+  UserCharactersPage.new.check_is_displaying_message I18n.t("success.created", object: I18n.t("objects.character_declaration"))
 end
 
 Then(/^a character must have a name message should be displayed$/) do
@@ -137,11 +149,11 @@ Then(/^a character must have death thresholds message should be displayed$/) do
 end
 
 Then(/^a character cannot have less than zero death thresholds message should be displayed$/) do
-  UserCharactersPage.new.check_is_displaying_message I18n.t("character.validation.dts_less_than_zero")
+  UserCharactersPage.new.check_is_displaying_message I18n.t("errors.messages.greater_than_or_equal_to", attribute: "Death thresholds", count: 0)
 end
 
 Then(/^a character cannot have more death thresholds than their race message should be displayed$/) do
-  UserCharactersPage.new.check_is_displaying_message I18n.t("character.validation.dts_greater_than_race")
+  UserCharactersPage.new.check_is_displaying_message I18n.t("validation.character_declaration.dts_greater_than_race")
 end
 
 Then(/^a death thresholds must be a number message should be displayed$/) do
@@ -181,193 +193,351 @@ Then(/^a Guild starting points must be a number message should be displayed$/) d
 end
 
 Then(/^a Guild starting points must be less than character points message should be displayed$/) do
-  UserCharactersPage.new.check_is_displaying_message I18n.t("character.guild_membership.failure.more_than_character_points")
+  UserCharactersPage.new.check_is_displaying_message I18n.t("failure.guild_membership.more_than_character_points")
 end
+
+# Character Profile Updates
 
 Then(/^a character updated message should be displayed$/) do
-  CharacterPage.new.check_is_displaying_message I18n.t("character.success.updated")
+  CharacterPage.new.check_is_displaying_message I18n.t("success.updated", object: I18n.t("objects.character"))
 end
 
-Then(/^an application to join message should be displayed$/) do
-  CharacterPage.new.check_is_displaying_message I18n.t("character.guild_membership.success.guild_changed")
+# Guild Membership
+
+Then(/^an application to join the Guild message should be displayed$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("success.guild_membership.joined", guild: Guild.find_by(name: "Test Guild"))
+end
+
+Then(/^an application to join the Guild and branch message should be displayed$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("success.guild_membership.joined_branch", guild: Guild.find_by(name: "Test Guild"), branch: Guild.find_by(name: "Branch 1"))
+end
+
+Then(/^an application to change to the Guild message should be displayed$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("success.guild_membership.changed", guild: Guild.find_by(name: "Test Guild 2"))
+end
+
+Then(/^an application to change to the Guild and branch message should be displayed$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("success.guild_membership.changed_branch", guild: Guild.find_by(name: "Test Guild 2"), branch: Guild.find_by(name: "Branch 1"))
 end
 
 Then(/^an application to change branch message should be displayed$/) do
-  CharacterPage.new.check_is_displaying_message I18n.t("character.guild_membership.success.branch_changed")
+  CharacterPage.new.check_is_displaying_message I18n.t("success.guild_membership.changed_branch", guild: Guild.find_by(name: "Test Guild 2"), branch: Guild.find_by(name: "Branch 2"))
 end
 
-Then(/^an application to leave message should be displayed/) do
-  CharacterPage.new.check_is_displaying_message I18n.t("character.guild_membership.success.left_guild")
+Then(/^an application to leave the Guild message should be displayed/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("success.guild_membership.left")
 end
 
-Then(/^an application cancelled message should be displayed$/) do
-  CharacterPage.new.check_is_displaying_message I18n.t("character.guild_membership.success.cancelled")
+Then(/^an ejected from the guild message should be displayed/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("success.guild_membership.ejected")
 end
 
-Then(/^a monster point declaration approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+# Approvals - MP Declaration
+
+Then(/^a monster point declaration approved message should be displayed on the user's monster points page$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.monster_point_declaration"))
 end
 
-Then(/^a monster point adjustment approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a character creation request approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a character declaration request approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a recycle character request approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a resurrect character request approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a join Guild request approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a join Guild request provisionally approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a change Guild request approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a change Guild request provisionally approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a leave Guild request approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a character point adjustment approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a character death threshold adjustment approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a game application approved message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^a monster point declaration approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.monster_point_declaration"))
 end
 
 Then(/^a monster point declaration withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.monster_point_declaration"))
+end
+
+Then(/^a monster point declaration rejected message should be displayed on the user's monster points page$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.monster_point_declaration"))
+end
+
+Then(/^a monster point declaration rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.monster_point_declaration"))
+end
+
+# Approvals - MP Adjustment
+
+Then(/^a monster point adjustment approved message should be displayed on the user's monster points page$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.monster_point_adjustment"))
+end
+
+Then(/^a monster point adjustment approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.monster_point_adjustment"))
 end
 
 Then(/^a monster point adjustment withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.monster_point_adjustment"))
+end
+
+Then(/^a monster point adjustment rejected message should be displayed on the user's monster points page$/) do
+  MonsterPointsPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.monster_point_adjustment"))
+end
+
+Then(/^a monster point adjustment rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.monster_point_adjustment"))
+end
+
+# Approvals - Character Creation and Declaration
+
+Then(/^a character creation request approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.character_declaration"))
+end
+
+Then(/^a character creation request approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.character_declaration"))
+end
+
+Then(/^a character declaration request approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.character_declaration"))
+end
+
+Then(/^a character declaration request approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.character_declaration"))
 end
 
 Then(/^a character declaration request withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.character_declaration"))
 end
 
 Then(/^a character creation request withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a character recycle request withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a character resurrection request withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a join Guild request withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a change Guild request withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a leave Guild request withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a character point adjustment withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a death threshold adjustment withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a game application updated message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a game application withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.character_declaration"))
 end
 
 Then(/^a character creation updated message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^a character creation withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  DashboardPage.new.check_is_displaying_message I18n.t("success.updated", object: I18n.t("objects.character_declaration"))
 end
 
 Then(/^a character declaration updated message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  DashboardPage.new.check_is_displaying_message I18n.t("success.updated", object: I18n.t("objects.character_declaration"))
 end
 
-Then(/^a character declaration withdrawn message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^a character creation request rejected message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.character_declaration"))
 end
 
-Then(/^a monster point declaration rejected message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^a character creation request rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.character_declaration"))
 end
 
-Then(/^a monster point adjustment rejected message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^a character declaration request rejected message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.character_declaration"))
 end
 
-Then(/^a character creation request rejected message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^a character declaration request rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.character_declaration"))
 end
 
-Then(/^a character declaration request rejected message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+# Approvals - Recycle Character
+
+Then(/^a recycle character request approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.character_recycling"))
 end
 
-Then(/^a recycle character request rejected message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^a recycle character request approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.character_recycling"))
 end
 
-Then(/^a join Guild request rejected message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^a recycle character request withdrawn message should be displayed$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.character_recycling"))
 end
 
-Then(/^a change Guild request rejected message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^a recycle character request rejected message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.character_recycling"))
 end
 
-Then(/^a leave Guild request rejected message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^a recycle character request rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.character_recycling"))
 end
 
-Then(/^a character point adjustment rejected message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+# Approvals - Resurrect Character
+
+Then(/^a resurrect character request approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.character_resurrection"))
 end
 
-Then(/^a character death threshold adjustment rejected message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^a resurrect character request approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.character_resurrection"))
 end
 
-Then(/^a game application rejected message should be displayed$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+Then(/^a resurrect character request withdrawn message should be displayed$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.character_resurrection"))
+end
+
+Then(/^a resurrect character request rejected message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.character_resurrection"))
+end
+
+Then(/^a resurrect character request rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.character_resurrection"))
+end
+
+# Approvals - Guild Membership
+
+Then(/^a join Guild request approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a join Guild request approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a join Guild request provisionally approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.provisionally_approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a join Guild request provisionally approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.provisionally_approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a join Guild request fully approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.fully_approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a join Guild request fully approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.fully_approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a change Guild request approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a change Guild request approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a change Guild request provisionally approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.provisionally_approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a change Guild request provisionally approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.provisionally_approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a change Guild request fully approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.fully_approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a change Guild request fully approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.fully_approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a leave Guild request approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.fully_approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a leave Guild request approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.fully_approved", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a join Guild request withdrawn message should be displayed$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a change Guild request withdrawn message should be displayed$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a leave Guild request withdrawn message should be displayed$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a join Guild request rejected message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a join Guild request rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a change Guild request rejected message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a change Guild request rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a leave Guild request rejected message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.guild_membership"))
+end
+
+Then(/^a leave Guild request rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.guild_membership"))
+end
+
+# Approvals - Character Point Adjustment
+
+Then(/^a character point adjustment approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.character_point_adjustment"))
+end
+
+Then(/^a character point adjustment approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.character_point_adjustment"))
+end
+
+Then(/^a character point adjustment withdrawn message should be displayed$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.character_point_adjustment"))
+end
+
+Then(/^a character point adjustment rejected message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.character_point_adjustment"))
+end
+
+Then(/^a character point adjustment rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.character_point_adjustment"))
+end
+
+# Approvals - Death Threshold Adjustment
+
+Then(/^a character death threshold adjustment approved message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.death_threshold_adjustment"))
+end
+
+Then(/^a character death threshold adjustment approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.death_threshold_adjustment"))
+end
+
+Then(/^a death threshold adjustment withdrawn message should be displayed$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.death_threshold_adjustment"))
+end
+
+Then(/^a character death threshold adjustment rejected message should be displayed on the character's profile page$/) do
+  CharacterPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.death_threshold_adjustment"))
+end
+
+Then(/^a character death threshold adjustment rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.death_threshold_adjustment"))
+end
+
+# Approvals - Game Applications
+
+Then(/^a game application approved message should be displayed on the game page$/) do
+  GamePage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.game_application"))
+end
+
+Then(/^a game application approved message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.approved", object: I18n.t("objects.game_application"))
+end
+
+Then(/^a game application updated message should be displayed on the game page$/) do
+  GamePage.new.check_is_displaying_message I18n.t("success.updated", object: I18n.t("objects.game_application"))
+end
+
+Then(/^a game application updated message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("success.updated", object: I18n.t("objects.game_application"))
+end
+
+Then(/^a game application withdrawn message should be displayed on the game page$/) do
+  GamePage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.game_application"))
+end
+
+Then(/^a game application withdrawn message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.withdrawn", object: I18n.t("objects.game_application"))
+end
+
+Then(/^a game application rejected message should be displayed on the game page$/) do
+  GamePage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.game_application"))
+end
+
+Then(/^a game application rejected message should be displayed on the dashboard$/) do
+  DashboardPage.new.check_is_displaying_message I18n.t("approval.success.rejected", object: I18n.t("objects.game_application"))
 end

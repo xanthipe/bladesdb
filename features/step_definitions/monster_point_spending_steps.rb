@@ -1,7 +1,7 @@
 # Setup steps
 
 Given(/^the user has (\d+) monster points? available$/) do |points|
-  UserTestHelper.add_monster_point_declaration(User.first, points.to_i)
+  MonsterPointsDeclarationTestHelper.create_approved_monster_point_declaration(User.first, points: points.to_i)
 end
 
 Given(/^the user has earned (\d+) monster points?$/) do |points|
@@ -9,39 +9,39 @@ Given(/^the user has earned (\d+) monster points?$/) do |points|
 end
 
 Given(/^the user has monster points available$/) do
-  UserTestHelper.add_monster_point_declaration(User.first, 10)
+  MonsterPointsDeclarationTestHelper.create_approved_monster_point_declaration(User.first, points: 10)
 end
 
 Given(/^the user has a monster point declaration one week ago$/) do
-  UserTestHelper.add_monster_point_declaration(User.first, 10, 1.week.ago)
+  MonsterPointsDeclarationTestHelper.create_approved_monster_point_declaration(User.first, points: 10, date: 1.week.ago)
 end
 
 Given(/^the user has a monster point declaration since the monster point spend$/) do
-  UserTestHelper.add_monster_point_declaration(User.first, 10, MonsterPointSpend.first.spent_on + 1.day)
+  MonsterPointsDeclarationTestHelper.create_approved_monster_point_declaration(User.first, points: 10, date: MonsterPointSpend.first.spent_on + 1.day)
 end
 
 Given(/^the user has a rejected monster point declaration since the monster point spend$/) do
-  UserTestHelper.add_monster_point_declaration(User.first, 10, MonsterPointSpend.first.spent_on + 1.day, approved: false)
+  MonsterPointsDeclarationTestHelper.create_rejected_monster_point_declaration(User.first, points: 10, date: MonsterPointSpend.first.spent_on + 1.day)
 end
 
 Given(/^the user has a pending monster point declaration for (\d+) monster points?$/) do |points|
-  UserTestHelper.add_monster_point_declaration(User.first, points.to_i, 1.week.ago, approved: nil)
+  MonsterPointsDeclarationTestHelper.create_pending_monster_point_declaration(User.first, points: points.to_i, date: 1.week.ago)
 end
 
 Given(/^the user has a rejected monster point declaration one week ago$/) do
-  UserTestHelper.add_monster_point_declaration(User.first, 10, 1.week.ago, approved: false)
+  MonsterPointsDeclarationTestHelper.create_rejected_monster_point_declaration(User.first, points: 10, date: 1.week.ago)
 end
 
 Given(/^the user has a monster point adjustment since the monster point spend$/) do
-  UserTestHelper.add_monster_point_adjustment(User.first, 10, MonsterPointSpend.first.spent_on + 1.day)
+  MonsterPointsAdjustmentTestHelper.create_approved_monster_point_adjustment(User.first, points: 10, date: MonsterPointSpend.first.spent_on + 1.day)
 end
 
 Given(/^the user has a pending monster point adjustment for \+(\d+) monster points$/) do |points|
-  UserTestHelper.add_monster_point_adjustment(User.first, points.to_i, 1.week.ago, approved: nil)
+  MonsterPointsAdjustmentTestHelper.create_pending_monster_point_adjustment(User.first, points: points.to_i, date: 1.week.ago)
 end
 
 Given(/^the user has a pending monster point adjustment for \-(\d+) monster points$/) do |points|
-  UserTestHelper.add_monster_point_adjustment(User.first, -(points.to_i), 1.week.ago, approved: nil)
+  MonsterPointsAdjustmentTestHelper.create_pending_monster_point_adjustment(User.first, points: -(points.to_i), date: 1.week.ago)
 end
 
 Given(/^there is a monster point spend on the character$/) do
@@ -85,7 +85,7 @@ Given(/^the user bought (\d+) character points? for (\d+) monster points? for th
 end
 
 Given(/^the user has a rejected monster point adjustment since the monster point spend$/) do
-  UserTestHelper.add_monster_point_adjustment(User.first, 1, MonsterPointSpend.first.spent_on + 1.day, approved: false)
+  MonsterPointsAdjustmentTestHelper.create_rejected_monster_point_adjustment(User.first, points: 1, date: MonsterPointSpend.first.spent_on + 1.day)
 end
 
 Given(/^the character has a character point adjustment since the monster point spend$/) do
@@ -105,7 +105,7 @@ Given(/^the character has a monster point spend after the cut\-off that takes th
 end
 
 Given(/^the character has 100 monster points available two weeks before the monster spend cut\-off$/) do
-  UserTestHelper.add_monster_point_declaration(User.first, 100, '2016-12-27')
+  MonsterPointsDeclarationTestHelper.create_approved_monster_point_declaration(User.first, points: 100, date: '2016-12-27')
 end
 
 # Action steps
@@ -273,11 +273,11 @@ Then(/^the user should be told they cannot delete a monster point spend on a rec
 end
 
 Then(/^the user should receive an e\-mail telling them that their monster point spend has reduced in cost$/) do
-  EmailTestHelper.check_for_email(to: User.first.email, regarding: I18n.t("email_subjects.mp_cost_decreased"))
+  EmailTestHelper.check_for_email(to: User.first.email, regarding: I18n.t("email.subject.mp_cost_decreased"))
 end
 
 Then(/^the user should receive an e\-mail telling them that their monster point spend has increased in cost$/) do
-  EmailTestHelper.check_for_email(to: User.first.email, regarding: I18n.t("email_subjects.mp_cost_increased"))
+  EmailTestHelper.check_for_email(to: User.first.email, regarding: I18n.t("email.subject.mp_cost_increased"))
 end
 
 Then(/^user should be told they cannot delete a monster point spend before a character point adjustment$/) do
@@ -289,5 +289,5 @@ Then(/^the user should be told they cannot create a monster point spend before t
 end
 
 Then(/^the user's monster points should remain at (.*?)\.$/) do |mps|
-  pending # Write code here that turns the phrase above into concrete actions
+  MonsterPointsPage.new.visit_page(monster_points_user_path(User.first)).and.check_for_monster_points(mps)
 end

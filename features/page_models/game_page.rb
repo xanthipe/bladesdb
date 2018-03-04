@@ -55,6 +55,10 @@ class GamePage < BladesDBPage
     page.should have_no_link "View applications"
   end
 
+  def check_unassigned
+    page.find("p#gms").should have_text("Unassigned")
+  end
+
   def check_for_gm(gm, display: true)
     if display then
       page.find("p#gms").should have_text(gm.name)

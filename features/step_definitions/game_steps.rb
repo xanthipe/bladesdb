@@ -287,3 +287,19 @@ end
 Then(/^the user should appear as not attending the game$/) do
   EventCalendarPage.new.visit_page(event_calendar_path).and.check_for_not_attending(Game.first, User.first)
 end
+
+Then(/^the game should be assigned to the first user$/) do
+  GamePage.visit(game_path(Game.first)).and.check_for_gm(User.first)
+end
+
+Then(/^the character should be removed from the game$/) do
+  GamePage.visit(game_path(Game.first)).and.check_for_player(User.First, Character.first, display: false)
+end
+
+Then(/^the game should remain unassigned$/) do
+  GamePage.visit(game_path(Game.first)).and.check_unassigned
+end
+
+Then(/^the game should be assigned to the user$/) do
+  GamePage.visit(game_path(Game.first)).and.check_for_gm(User.first)
+end

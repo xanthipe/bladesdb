@@ -204,7 +204,7 @@ Then(/^an activation email should be sent to the other user$/) do
 end
 
 Then(/^an approval email should be sent to the other user$/) do
-  EmailTestHelper.count_emails_with_subject(User.all.second.email, I18n.t("email_subjects.approved")).should == 1
+  EmailTestHelper.count_emails_with_subject(User.all.second.email, I18n.t("email.subject.approved", object: I18n.t("objects.user"))).should == 1
 end
 
 Then(/^the other user should have the committee role marker$/) do

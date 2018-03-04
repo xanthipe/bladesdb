@@ -5,7 +5,7 @@ module GuildTestHelper
     Guild.create_with(tithe_percentage: tithe_percentage, proscribed: proscribed).find_or_create_by!(name: name)
   end
 
-  def create_guild_branch(name: "Branch 1", guild: Guild.last, title: "Pyromancer")
+  def create_guild_branch(name: "Branch 1", guild: Guild.find_by_name("Test Guild"), title: "Pyromancer")
     GuildBranch.find_or_create_by!(name: name, guild_id: guild.id, branch_title: title)
   end
 

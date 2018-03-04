@@ -1,5 +1,5 @@
 class MonsterPointDeclaration < ActiveRecord::Base
-  includes Approvable
+  include Approvable
 
     validates_presence_of :points
     validates_numericality_of :points, :only_integer => true, :greater_than_or_equal_to => 0

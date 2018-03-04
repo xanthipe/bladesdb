@@ -372,19 +372,19 @@ class User < ActiveRecord::Base
         if @changes.nil?
             @changes = []
             declaration_date = Date.new(1990, 1, 1)
-            declaration_date = monster_point_declaration.declared_on unless (monster_point_declaration.nil? or monster_point_declaration.is_provisional? or monster_point_declaration.is_rejected?)
+            declaration_date = monster_point_declaration.declared_on if monster_point_declaration.is_approved?
             unless monster_point_declaration.nil?
                 change = MonsterPointChange.new
                 change.source_object = monster_point_declaration
                 change.date = monster_point_declaration.declared_on
                 change.points = monster_point_declaration.points
                 change.title = "Monster Points Declared"
-                change.provisional = monster_point_declaration.approved.nil?
-                change.rejected = (monster_point_declaration.approved == false)
+                change.provisional = monster_point_declaration.is_pending?
+                change.rejected = monster_point_declaration.is_rejected?
                 change.historical = false
-                if monster_point_declaration.approved
+                if monster_point_declaration.is_approved?
                     change.approval = "Approved by #{monster_point_declaration.approved_by.name} at #{monster_point_declaration.approved_at}."
-                elsif monster_point_declaration.approved == false
+                elsif monster_point_declaration.is_rejected?
                     change.approval = "Rejected by #{monster_point_declaration.approved_by.name} at #{monster_point_declaration.approved_at}."
                 end
                 @changes.push(change)
@@ -406,12 +406,12 @@ class User < ActiveRecord::Base
                 change.date = adjustment.declared_on
                 change.points = adjustment.points
                 change.title = "Adjustment: #{adjustment.reason}"
-                change.provisional = adjustment.approved.nil?
-                change.rejected = (adjustment.approved == false)
+                change.provisional = adjustment.is_pending?
+                change.rejected = adjustment.is_rejected?
                 change.historical = (adjustment.declared_on < declaration_date)
-                if adjustment.approved
+                if adjustment.is_approved?
                     change.approval = "Approved by #{adjustment.approved_by.name} at #{adjustment.approved_at}."
-                elsif adjustment.approved == false
+                elsif adjustment.is_rejected?
                     change.approval = "Rejected by #{adjustment.approved_by.name} at #{adjustment.approved_at}."
                 end
                 @changes.push(change)

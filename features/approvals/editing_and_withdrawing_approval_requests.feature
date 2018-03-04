@@ -97,7 +97,7 @@ Feature: Editing and Withdrawing Approval Requests
     And the user has a pending recycle character request
     When the user withdraws the pending character recycle request on the dashboard
     Then the pending character recycle request should be removed from the dashboard
-		And a character recycle request withdrawn message should be displayed
+		And a recycle character request withdrawn message should be displayed
 		And the character should remain active
 
   Scenario: User cannot edit a pending Character Resurrection request
@@ -111,7 +111,7 @@ Feature: Editing and Withdrawing Approval Requests
     And the user has a pending resurrect character request
 		When the user withdraws the pending character recycle request on the dashboard
     Then the pending character resurrection request should be removed from the dashboard
-		And a character resurrection request withdrawn message should be displayed
+		And a resurrect character request withdrawn message should be displayed
 		And the character should remain dead
 
   Scenario: User cannot edit a pending Join Guild request
@@ -196,17 +196,32 @@ Feature: Editing and Withdrawing Approval Requests
 		And a death threshold adjustment withdrawn message should be displayed
 		And the character's death thresholds should remain at 10
 
-  Scenario: User can edit a pending Game Application request
+  Scenario: User can edit a pending Game Application request from the dashboard
     Given there is a game
     And the user has a pending game application for the game
     When the user edits the pending game application from the dashboard
-    Then a game application updated message should be displayed
+    Then a game application updated message should be displayed on the dashboard
 		And a game application updated email should be sent to the Committee
 
-  Scenario: User can withdraw a pending Game Application request
+	Scenario: User can edit a pending Game Application request from the game page
     Given there is a game
     And the user has a pending game application for the game
-    When the user edits the pending game application on the dashboard
+    When the user edits the pending game application from the game page
+    Then a game application updated message should be displayed on the game page
+		And a game application updated email should be sent to the Committee
+
+  Scenario: User can withdraw a pending Game Application request from the dashboard
+    Given there is a game
+    And the user has a pending game application for the game
+    When the user withdraws the pending game application on the dashboard
 		Then the pending game application should be removed from the dashboard
-		And a game application withdrawn message should be displayed
+		And a game application withdrawn message should be displayed on the dashboard
+		And a game application withdrawn email should be sent to the Committee
+
+	Scenario: User can withdraw a pending Game Application request from the game page
+    Given there is a game
+    And the user has a pending game application for the game
+    When the user withdraws the pending game application on the game page
+		Then the pending game application should be removed from the game page
+		And a game application withdrawn message should be displayed on the game page
 		And a game application withdrawn email should be sent to the Committee

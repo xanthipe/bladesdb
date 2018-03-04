@@ -86,6 +86,7 @@ Feature: Viewing My Approved Requests
 	  Given the user has a character
 	  And there is a Guild
 	  And the character is a member of the Guild
+		And the user has an approved leave Guild request for the character
 		When the user views their approval history
 	  Then an approval to leave the Guild from the Character Refs should be displayed on the dashboard page
 		And the character should be displayed as having left the Guild at rank 2.0 on the character's profile page

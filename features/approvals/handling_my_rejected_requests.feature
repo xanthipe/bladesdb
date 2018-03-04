@@ -40,7 +40,7 @@ Feature: Handling My Rejected Requests
     Given the user has a rejected character creation request
     When the user withdraws the rejected character creation request from the dashboard
     Then the rejected character creation request should be removed from the dashboard
-		And a character creation withdrawn message should be displayed
+		And a character creation request withdrawn message should be displayed
 		And the character should become an undeclared character
 
   Scenario: User can edit a rejected Character Declaration request
@@ -55,7 +55,7 @@ Feature: Handling My Rejected Requests
 		And the user has a rejected character declaration request
     When the user withdraws the rejected character declaration request from the dashboard
     Then the rejected character declaration request should be removed from the dashboard
-		And a character declaration withdrawn message should be displayed
+		And a character declaration request withdrawn message should be displayed
 		And the character should become an undeclared character
 
   Scenario: User can edit a rejected Recycle Character request
@@ -71,7 +71,7 @@ Feature: Handling My Rejected Requests
 		And the user has a rejected recycle character request
     When the user withdraws the rejected recycle character request on the dashboard
 		Then the rejected character recycle request should be removed from the dashboard
-		And a character recycle request withdrawn message should be displayed
+		And a recycle character request withdrawn message should be displayed
 
   Scenario: User cannot edit a rejected Character Resurrection request
 		Given the user has a permadead character
@@ -162,7 +162,7 @@ Feature: Handling My Rejected Requests
     And the user has a rejected game application for the game
     When the user edits the rejected game application from the dashboard
     Then the rejected game application should be displayed as pending on the dashboard
-		And a game application updated message should be displayed
+		And a game application updated message should be displayed on the dashboard
 		And a game application updated email should be sent to the Committee
 
   Scenario: User can withdraw a rejected Game Application request
@@ -170,4 +170,4 @@ Feature: Handling My Rejected Requests
     And the user has a rejected game application for the game
     When the user withdraws the rejected game application on the dashboard
 		Then the rejected game application should be removed from the dashboard
-		And a game application withdrawn message should be displayed
+		And a game application withdrawn message should be displayed on the dashboard

@@ -63,7 +63,7 @@ When(/^the user goes to the game page/) do
 end
 
 When(/^the user inspects the game page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  visit game_path(Game.first)
 end
 
 When(/^the user goes to the page$/) do
@@ -87,7 +87,7 @@ When(/^the user goes to the characters page$/) do
 end
 
 When(/^the user inspects the character's profile page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  visit character_path(Character.first)
 end
 
 When(/^the user goes to their monster points page$/) do
@@ -95,7 +95,7 @@ When(/^the user goes to their monster points page$/) do
 end
 
 When(/^the user inspects their monster points page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  visit monster_points_path
 end
 
 # Validations

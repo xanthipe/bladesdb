@@ -9,7 +9,7 @@ Given(/^the Guild has another branch$/) do
 end
 
 Given(/^the character is a member of the last branch of the Guild$/) do
-  GuildTestHelper.join_guild(Character.first, Guild.last, GuildBranch.last)
+  GuildTestHelper.join_guild_approved(Character.first, Guild.find_by(name: "Test Guild"), GuildBranch.last)
 end
 
 Given(/^there is a Guild$/) do
@@ -20,12 +20,16 @@ Given(/^there is another Guild$/) do
   GuildTestHelper.create_guild(name: "Test Guild 2")
 end
 
+Given(/^the other Guild has branches$/) do
+  GuildTestHelper.create_guild_branch(guild: Guild.find_by(name: "Test Guild 2"))
+end
+
 Given(/^the character is a member of the Guild$/) do
-  GuildTestHelper.join_guild(Character.first, Guild.last)
+  GuildTestHelper.join_guild_approved(Character.first, Guild.find_by(name: "Test Guild"))
 end
 
 Given(/^the character is Guildless$/) do
-  GuildTestHelper.join_guild(Character.first, nil)
+  GuildTestHelper.join_guild_approved(Character.first, nil)
 end
 
 Given(/^the character joined the Guild at rank (.*?)$/) do |rank|
@@ -36,21 +40,25 @@ Given(/^the character joined the Guild at rank (.*?)$/) do |rank|
 end
 
 Given(/^the character has an application to join the Guild$/) do
-  GuildTestHelper.join_guild(Character.first, Guild.find_by(name: "Test Guild"), approved: nil)
+  GuildTestHelper.join_guild_pending(Character.first, Guild.find_by(name: "Test Guild"), approved: nil)
 end
 
 Given(/^the character has an application to join another Guild$/) do
-  GuildTestHelper.join_guild(Character.first, Guild.find_by(name: "Test Guild 2"), approved: nil)
+  GuildTestHelper.join_guild_pending(Character.first, Guild.find_by(name: "Test Guild 2"), approved: nil)
 end
 
 Given(/^the character has an application to leave the Guild$/) do
-  GuildTestHelper.leave_guild(Character.first, approved: nil)
+  GuildTestHelper.leave_guild_pending(Character.first, approved: nil)
 end
 
 # Actions
 
 When(/^the character asks to join the Guild$/) do
   CharacterPage.new.visit_page(character_path(1)).and.join_guild("Test Guild")
+end
+
+When(/^the character asks to join the last branch of the Guild$/) do
+  CharacterPage.new.visit_page(character_path(1)).and.join_guild("Test Guild", branch: "Branch 1")
 end
 
 When(/^the character asks to join the other Guild$/) do
@@ -61,26 +69,22 @@ When(/^the character asks to join another branch of the Guild$/) do
   CharacterPage.new.visit_page(character_path(1)).and.change_branch("Branch 2")
 end
 
-When(/^the character cancels their request to join a Guild$/) do
-  CharacterPage.new.visit_page(character_path(1)).and.cancel_guild_change
-end
-
 When(/^the character asks to leave the Guild$/) do
   CharacterPage.new.visit_page(character_path(1)).and.leave_guild
-end
-
-When(/^the character cancels their request to leave the Guild$/) do
-  CharacterPage.new.visit_page(character_path(1)).and.cancel_guild_change
 end
 
 # Validations
 
 Then(/^an application to join the Guild should be displayed on the character's profile$/) do
-  CharacterPage.new.check_for_guild("Test Guild", branch: nil, state: "join_pending")
+  CharacterPage.new.check_for_guild("Test Guild", state: "join_pending")
+end
+
+Then(/^an application to join the Guild and branch should be displayed on the character's profile$/) do
+  CharacterPage.new.check_for_guild("Test Guild", branch: "Branch 1", state: "join_pending")
 end
 
 Then(/^an application to join the new Guild should be displayed on the character's profile$/) do
-  CharacterPage.new.check_for_guild("Test Guild 2", branch: nil, state: "change_pending")
+  CharacterPage.new.check_for_guild("Test Guild 2", state: "change_pending")
 end
 
 Then(/^an application to join the new branch should be displayed on the character's profile$/) do
@@ -88,53 +92,57 @@ Then(/^an application to join the new branch should be displayed on the characte
 end
 
 Then(/^an application to leave the Guild should be shown on the character's profile$/) do
-  CharacterPage.new.check_for_guild("Test Guild", branch: nil, state: "leave_pending")
+  CharacterPage.new.check_for_guild("Test Guild", state: "leave_pending")
 end
 
 Then(/^the old Guild should be shown on the character's profile$/) do
-  CharacterPage.new.check_for_guild("Test Guild", branch: nil)
+  CharacterPage.new.check_for_guild("Test Guild")
 end
 
 Then(/^no Guild should be shown on the character's profile$/) do
-  CharacterPage.new.check_for_guild("No guild", branch: nil)
+  CharacterPage.new.check_for_guild("No guild")
 end
 
 Then(/^the character should be displayed as having provisionally joined the Guild at rank (.*?) on the character's profile page$/) do |rank|
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.check_for_guild("Test Guild", branch: nil, state: provisional, start_rank: rank)
 end
 
 Then(/^the character should be displayed as having joined the other Guild at rank (.*?) on the character's profile page$/) do |rank|
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.check_for_guild("Test Guild 2", branch: nil, state: nil, start_rank: rank)
 end
 
 Then(/^the character should be displayed as having provisionally joined the other Guild at rank (.*?) on the character's profile page$/) do |rank|
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.check_for_guild("Test Guild", branch: nil, state: nil, start_rank: rank)
 end
 
 Then(/^the character should be displayed as having left the Guild at rank (.*?) on the character's profile page$/) do |rank|
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.check_for_guild("No guild", branch: nil, state: nil, start_rank: rank)
 end
 
 Then(/^the character should remain unguilded\.$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.check_for_guild("No guild")
 end
 
 Then(/^the character should remain in the Guild\.$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.check_for_guild("Test Guild")
 end
 
 Then(/^the character should remain guildless on the character's profile page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.check_for_guild("No guild")
 end
 
 Then(/^the character should become guildless on the character's profile page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.check_for_guild("No guild")
 end
 
 Then(/^the character should remain in the first Guild on the character's profile page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.check_for_guild("Test Guild")
 end
 
 Then(/^the character should return to the first Guild on the character's profile page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.check_for_guild("Test Guild")
+end
+
+Then(/^an ejected from Guild email should be sent to the user$/) do
+  EmailTestHelper.check_for_email(to: User.first.email, regarding: I18n.t("email.subject.guild_membership.ejected", character: Character.first, guild: Guild.find_by(name: "Test Guild")))
 end

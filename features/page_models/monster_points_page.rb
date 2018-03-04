@@ -20,7 +20,7 @@ class MonsterPointsPage < BladesDBPage
     def request_adjustment(date, points, reason)
       click_link "Request Monster Points Adjustment"
       set_datepicker_date("monster_point_adjustment_declared_on", date)
-      fill_in I18n.t("user.monster_point_adjustment.points_label"), with: points
+      fill_in I18n.t("validation.monster_point_adjustment.points_label"), with: points
       fill_in "Reason", with: reason
       page.find("span.ui-dialog-title").click
       page.find_button("Request").trigger("click")

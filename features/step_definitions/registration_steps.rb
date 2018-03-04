@@ -45,5 +45,5 @@ Then(/^the user should see a successful sign-in message$/) do
 end
 
 Then(/^the user should receive a confirmation email$/) do
-  EmailTestHelper.count_emails_with_subject(User.first.email, I18n.t("devise.mailer.confirmation_instructions.subject")).should == 1
+  EmailTestHelper.check_for_email(to: User.first.email, regarding: I18n.t("devise.mailer.confirmation_instructions.subject"))
 end

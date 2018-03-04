@@ -74,11 +74,11 @@ Given(/^the user has a character declared one month before the monster spend cut
 end
 
 Given(/^the character is dead$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterTestHelper.permdeath_character
 end
 
 Given(/^the character is retired$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterTestHelper.retire_character
 end
 
 
@@ -266,37 +266,37 @@ Then(/^no title should be displayed on the character's profile$/) do
 end
 
 Then(/^the character should be displayed as active on the character's profile page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.visit_page(character_path(Character.first)).and.check_for_state("Active")
 end
 
 Then(/^the character should be displayed as recycled on the character's profile page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^the character should become an undeclared character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^the character should revert to an undeclared character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^the character should remain active$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^the character should remain dead$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^the character's rank should remain at (.*?)\.$/) do |rank|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^the character should become an undeclared character\.$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.visit_page(character_path(Character.first)).and.check_for_state("Recycled")
 end
 
 Then(/^the character should be displayed as permdead on the character's profile page$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPage.new.visit_page(character_path(Character.first)).and.check_for_state("Dead")
+end
+
+Then(/^the character should become an undeclared character$/) do
+  CharactersPage.new.visit_page(characters_path).and.check_for_undeclared_character(User.first, Character.first)
+end
+
+Then(/^the character should revert to an undeclared character$/) do
+  CharactersPage.new.visit_page(characters_path).and.check_for_undeclared_character(User.first, Character.first)
+end
+
+Then(/^the character should remain active$/) do
+  CharacterPage.new.visit_page(character_path(Character.first)).and.check_for_state("Active")
+end
+
+Then(/^the character should remain dead$/) do
+  CharacterPage.new.visit_page(character_path(Character.first)).and.check_for_state("Dead")
+end
+
+Then(/^the character's rank should remain at (.*?)\.$/) do |rank|
+  CharacterPage.new.visit_page(character_path(Character.first)).and.check_for_rank(rank)
+end
+
+Then(/^the character should become an undeclared character\.$/) do
+  CharactersPage.new.visit_page(characters_path).and.check_for_undeclared_character(User.first, Character.first)
 end

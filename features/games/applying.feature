@@ -28,13 +28,3 @@ Feature: Game Applications - Applying
   Scenario: User cannot apply a second time for a game they have already applied for
     Given the user has applied for the game
     Then the user should not be able to apply for the game
-
-  Scenario: User can edit their application for a game
-    Given the user has applied for the game
-    When the user edits their application for the game
-    Then the game should have a modified application for the user
-
-  Scenario: User can withdraw their application for a game
-    Given the user has applied for the game
-    When the user withdraws their application for the game
-    Then the game should not have an application for the user

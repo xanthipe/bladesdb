@@ -1,5 +1,49 @@
 # Set-up steps
 
+## Monster Point Declaration
+
+Given(/^the user has a pending monster point declaration$/) do
+  MonsterPointsDeclarationTestHelper.create_pending_monster_point_declaration(User.first)
+end
+
+Given(/^the user has a rejected monster point declaration$/) do
+  approver = UserTestHelper.create_or_find_user(name: "Charles Characterref", email: "charles@mail.com", username: "characterrefuser")
+  if approver.state = :pending
+    UserTestHelper.confirm(approver)
+    UserTestHelper.approve(approver)
+    UserTestHelper.grant_role(approver, Role.find_by(rolename: "characterref"))
+    reset_mailer
+  end
+  MonsterPointsDeclarationTestHelper.create_rejected_monster_point_declaration(User.first, approver)
+end
+
+Given(/^the user has an approved monster point declaration$/) do
+  approver = UserTestHelper.create_or_find_user(name: "Charles Characterref", email: "charles@mail.com", username: "characterrefuser")
+  if approver.state = :pending
+    UserTestHelper.confirm(approver)
+    UserTestHelper.approve(approver)
+    UserTestHelper.grant_role(approver, Role.find_by(rolename: "characterref"))
+    reset_mailer
+  end
+  MonsterPointsDeclarationTestHelper.create_approved_monster_point_declaration(User.first, approver)
+end
+
+## Monster Point Adjustment
+
+Given(/^the user has a pending monster point adjustment$/) do
+  MonsterPointsAdjustmentTestHelper.create_pending_monster_point_adjustment(User.first)
+end
+
+Given(/^the user has a rejected monster point adjustment$/) do
+  MonsterPointsAdjustmentTestHelper.create_rejected_monster_point_adjustment(User.first)
+end
+
+Given(/^the user has an approved monster point adjustment$/) do
+  MonsterPointsAdjustmentTestHelper.create_approved_monster_point_adjustment(User.first)
+end
+
+## Character Creation
+
 Given(/^the user has a pending character creation request$/) do
   CharacterTestHelper.create_pending_character(User.first)
 end
@@ -8,143 +52,151 @@ Given(/^the user has a pending character declaration request$/) do
   CharacterTestHelper.create_character_declaration(Character.first)
 end
 
-Given(/^the user has a pending recycle character request$/) do
-  CharacterRecycleTestHelper.create_character_recycle(Character.first)
-end
-
-Given(/^the user has a pending resurrect character request$/) do
-  CharacterResurrectionTestHelper.create_character_resurrection(Character.first)
-end
-
-Given(/^the user has a pending join Guild request for the character$/) do
-  GuildTestHelper.join_guild(Character.first, Guild.last)
-end
-
-Given(/^the user has a pending provisional join Guild request for the character$/) do
-  GuildTestHelper.join_guild(Character.first, Guild.last, provisional: true)
-end
-
-Given(/^the user has a pending change Guild request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a pending provisional change Guild request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a pending leave Guild request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a pending character point adjustment$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a pending character death threshold adjustment$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a pending game application for the game$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-Given(/^the other user has a pending game application for the game$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has applied to play the game with the pending character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
 Given(/^the user has a rejected character creation request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterTestHelper.create_rejected_character(User.first)
 end
 
 Given(/^the user has a rejected character declaration request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a rejected recycle character request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a rejected resurrect character request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a rejected join Guild request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a rejected change Guild request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a rejected leave Guild request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a rejected character point adjustment request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a rejected death threshold adjustment request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has a rejected game application for the game$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has an approved monster point declaration$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^the user has an approved monster point adjustment$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterTestHelper.create_rejected_character(User.first)
 end
 
 Given(/^the user has an approved character creation$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterTestHelper.create_approved_character(User.first)
 end
 
 Given(/^the user has an approved character declaration$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterTestHelper.create_approved_character(User.first)
+end
+
+## Character Recycling
+
+Given(/^the user has a pending recycle character request$/) do
+  CharacterRecycleTestHelper.create_pending_character_recycle(Character.first)
+end
+
+Given(/^the user has a rejected recycle character request$/) do
+  CharacterRecycleTestHelper.create_rejected_character_recycle(Character.first)
 end
 
 Given(/^the user has an approved recycle character request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterRecycleTestHelper.create_approved_character_recycle(Character.first)
+end
+
+## Character Resurrection
+
+Given(/^the user has a pending resurrect character request$/) do
+  CharacterResurrectionTestHelper.create_pending_character_resurrection(Character.first)
+end
+
+Given(/^the user has a rejected resurrect character request$/) do
+  CharacterResurrectionTestHelper.create_rejected_character_resurrection(Character.first)
 end
 
 Given(/^the user has an approved resurrect character request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterResurrectionTestHelper.create_approved_character_resurrection(Character.first)
+end
+
+## Guild Membership
+
+Given(/^the user has a pending join Guild request for the character$/) do
+  GuildTestHelper.join_guild_pending(Character.first, Guild.last)
+end
+
+Given(/^the user has a pending provisional join Guild request for the character$/) do
+  GuildTestHelper.join_guild_pending(Character.first, Guild.last, provisional: true)
+end
+
+Given(/^the user has a pending change Guild request for the character$/) do
+  GuildTestHelper.join_guild_pending(Character.first, Guild.last)
+end
+
+Given(/^the user has a pending provisional change Guild request for the character$/) do
+  GuildTestHelper.join_guild_pending(Character.first, Guild.last, provisional: true)
+end
+
+Given(/^the user has a pending leave Guild request for the character$/) do
+  GuildTestHelper.leave_guild_pending(Character.first)
+end
+
+Given(/^the user has a rejected join Guild request for the character$/) do
+  GuildTestHelper.join_guild_rejected(Character.first, Guild.last)
+end
+
+Given(/^the user has a rejected change Guild request for the character$/) do
+  GuildTestHelper.join_guild_rejected(Character.first, Guild.last)
+end
+
+Given(/^the user has a rejected leave Guild request for the character$/) do
+  GuildTestHelper.leave_guild_rejected(Character.first)
 end
 
 Given(/^the user has an approved join Guild request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  GuildTestHelper.join_guild_approved(Character.first, Guild.last)
 end
 
 Given(/^the user has a provisionally approved join Guild request$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  GuildTestHelper.join_guild_approved(Character.first, Guild.last, provisional: true)
 end
 
 Given(/^the user has an approved change Guild request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  GuildTestHelper.join_guild_approved(Character.first, Guild.last)
 end
 
 Given(/^the user has a provisionally approved change Guild request for the character$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  GuildTestHelper.join_guild_approved(Character.first, Guild.last, provisional: true)
+end
+
+Given(/^the user has an approved leave Guild request for the character$/) do
+  GuildTestHelper.leave_guild_approved(Character.first)
+end
+
+## Character Point Adjustment
+
+Given(/^the user has a pending character point adjustment$/) do
+  CharacterPointsAdjustmentTestHelper.create_pending_character_point_adjustment(Character.first)
+end
+
+Given(/^the user has a rejected character point adjustment request for the character$/) do
+  CharacterPointsAdjustmentTestHelper.create_rejected_character_point_adjustment(Character.first)
 end
 
 Given(/^the user has an approved character point adjustment$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  CharacterPointsAdjustmentTestHelper.create_approved_character_point_adjustment(Character.first)
+end
+
+## Death Threshold Adjustment
+
+Given(/^the user has a pending character death threshold adjustment$/) do
+  DeathThresholAdjustmentTestHelper.create_pending_death_threshold_adjustment(Character.first)
+end
+
+Given(/^the user has a rejected death threshold adjustment request for the character$/) do
+  DeathThresholAdjustmentTestHelper.create_rejected_death_threshold_adjustment(Character.first)
 end
 
 Given(/^the user has an approved character death threshold adjustment$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  DeathThresholAdjustmentTestHelper.create_approved_death_threshold_adjustment(Character.first)
+end
+
+## Game Applications
+
+Given(/^the user has a pending game application for the game$/) do
+  GameTestHelper.create_pending_game_application(User.first, to: Game.first)
+end
+Given(/^the other user has a pending game application for the game$/) do
+  GameTestHelper.create_pending_game_application(User.all.second, to: Game.first)
+end
+
+Given(/^the user has applied to play the game with the pending character$/) do
+  GameTestHelper.add_player User.first, Character.first, to: Game.first
+end
+
+Given(/^the user has a rejected game application for the game$/) do
+  GameTestHelper.create_rejected_game_application(User.first, to: Game.first)
 end
 
 Given(/^the user has an approved game application for the game$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  GameTestHelper.create_approved_game_application(User.first, to: Game.first)
 end
 
 # Action steps
@@ -365,7 +417,15 @@ When(/^the user views their dashboard$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-When(/^the user edits the pending game application on the dashboard$/) do
+When(/^the user withdraws the pending game application on the game page$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^the user withdraws the pending game application on the dashboard$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^the user edits the pending game application from the game page$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
@@ -667,6 +727,10 @@ Then(/^a join Guild request provisionally approved email should be sent to the u
   pending # Write code here that turns the phrase above into concrete actions
 end
 
+Then(/^a join Guild request fully approved email should be sent to the user$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
 Then(/^the approval controls should be removed for the guild change from the character's profile page$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
@@ -680,6 +744,10 @@ Then(/^the approval controls should not be removed for the guild change from the
 end
 
 Then(/^a change Guild request provisionally approved email should be sent to the user$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^a change Guild request fully approved email should be sent to the user$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
@@ -880,6 +948,10 @@ Then(/^a game application updated email should be sent to the Committee$/) do
 end
 
 Then(/^the pending game application should be removed from the dashboard$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^the pending game application should be removed from the game page$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
